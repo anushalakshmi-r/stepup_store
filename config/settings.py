@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-fcv-ec4@#spm#(=ktmvx!%jju9mohh9av)_i%eaw+*9n)*=6@h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    "stepup-store.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
 
 
 # Application definition
