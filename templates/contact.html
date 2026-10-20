@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | StepUp.in{% endblock %}
+
+{% block subheader %}
+<!-- Brand Row with Back Button -->
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="contact-page-container">
+
+    <!-- Top Section: Contact Info & Banner Image -->
+    <section class="contact-top-section">
+        <div class="contact-info-col">
+            <h2 class="contact-main-title">Contact Us</h2>
+
+            <div class="orders-query-box">
+                <h3 class="orders-title">For Online Orders</h3>
+                
+                <p class="query-category">Inquiry/Complanit</p>
+                <p class="phone-number">9976357250</p>
+
+                <p class="query-category">Any other queries</p>
+                <p class="phone-number">9976357250</p>
+                <p class="phone-number">9976357250</p>
+
+                <p class="working-time">10 AM-7.00 PM</p>
+                
+                <p class="support-email">
+                    Email: <a href="mailto:customercarestepup.in@gmail.com">customercarestepup.in@gmail.com</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="contact-image-col">
+            <!-- Replace with your footwear banner photo -->
+            <img src="{% static 'images/contact_footwear_banner.jpg' %}" alt="Footwear Support Showcase">
+        </div>
+    </section>
+
+    <hr class="contact-divider">
+
+    <!-- Bottom Section: Enquiry Form -->
+    <section class="enquiry-form-section">
+        <h2 class="form-title">Enquiry Form</h2>
+
+        <form class="custom-enquiry-form" method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            
+            <div class="form-row full-width">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-row-split">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+            </div>
+
+            <div class="form-row full-width">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+
+            <button type="submit" class="form-submit-btn">Send</button>
+        </form>
+    </section>
+
+</div>
+{% endblock %}

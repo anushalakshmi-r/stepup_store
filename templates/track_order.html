@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Track Your Order | StepUp.in{% endblock %}
+
+{% block extra_css %}
+<style>
+.track-page-main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 4% 80px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: #222222;
+}
+
+.track-order-card {
+    background: #FFFFFF;
+    border: 1px solid #777777;
+    padding: 24px 28px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Header Inside Box */
+.track-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #EEEEEE;
+    padding-bottom: 15px;
+    margin-bottom: 18px;
+}
+
+.track-heading-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-heading-left a {
+    text-decoration: none;
+    color: #111111;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.track-order-num {
+    font-size: 11px;
+    color: #555555;
+    margin-left: 10px;
+}
+
+.track-payment-tag {
+    font-size: 11px;
+    color: #333333;
+    font-weight: 700;
+}
+
+/* Item Brief */
+.order-item-snippet {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.order-item-thumb {
+    width: 95px;
+    height: 80px;
+    background: #F0F2F2;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.order-item-thumb img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.order-item-meta h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 3px;
+    color: #111111;
+}
+
+.order-item-meta p {
+    font-size: 11.5px;
+    color: #333333;
+    margin: 0 0 6px;
+}
+
+.order-item-meta .delivery-exp {
+    font-size: 11px;
+    color: #666666;
+}
+
+/* Vertical Timeline Stepper */
+.timeline-stepper {
+    background: #F6F8F8;
+    border-radius: 6px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+}
+
+.timeline-step {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    padding-bottom: 28px;
+}
+
+.timeline-step:last-child {
+    padding-bottom: 0;
+}
+
+/* Connecting Line */
+.timeline-step::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 38px;
+    bottom: 0;
+    width: 2px;
+    background: #2F4F4F;
+}
+
+.timeline-step.dotted::before {
+    border-left: 2px dotted #999999;
+    background: none;
+}
+
+.timeline-step:last-child::before {
+    display: none;
+}
+
+/* Icon Bubble */
+.step-icon-bubble {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.step-icon-bubble.pending {
+    background: #889999;
+}
+
+.step-content-box h5 {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #111111;
+    margin: 2px 0 3px;
+}
+
+.step-content-box p {
+    font-size: 11px;
+    color: #444444;
+    margin: 0;
+}
+
+.step-content-box.pending h5,
+.step-content-box.pending p {
+    color: #777777;
+}
+</style>
+{% endblock %}
+
+{% block subheader %}
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="track-page-main">
+    <div class="track-order-card">
+        
+        <!-- Header -->
+        <div class="track-card-header">
+            <div class="track-heading-left">
+                <a href="{% url 'home' %}">&#10094; Your Order</a>
+                <span class="track-order-num">Order no #Bh2300006</span>
+            </div>
+            <span class="track-payment-tag" id="track-pay-amount">Cash on Delivery ₹ 2,799</span>
+        </div>
+
+        <!-- Product Preview -->
+        <div class="order-item-snippet">
+            <div class="order-item-thumb">
+                <img id="track-prod-img" src="{% static 'images/mens/prod1.png' %}" alt="Footwear Item">
+            </div>
+            <div class="order-item-meta">
+                <h4 id="track-prod-brand">Comfy Steps</h4>
+                <p id="track-prod-title">Harlan Mens Tan Boat Shoe</p>
+                <span class="delivery-exp">Exp : Delivery by sun, May 31</span>
+            </div>
+        </div>
+
+        <!-- Timeline Progress -->
+        <div class="timeline-stepper">
+            
+            <!-- Step 1: Order Placed -->
+            <div class="timeline-step">
+                <div class="step-icon-bubble">🛒</div>
+                <div class="step-content-box">
+                    <h5>Order Placed</h5>
+                    <p>May 21,2025 | 03:45 pm</p>
+                </div>
+            </div>
+
+            <!-- Step 2: Dispatched -->
+            <div class="timeline-step">
+                <div class="step-icon-bubble">🏠</div>
+                <div class="step-content-box">
+                    <h5>OrderDispatched</h5>
+                    <p>May 22,2025 | 11:45 am</p>
+                </div>
+            </div>
+
+            <!-- Step 3: In Transit -->
+            <div class="timeline-step dotted">
+                <div class="step-icon-bubble">🚚</div>
+                <div class="step-content-box">
+                    <h5>Order in transit</h5>
+                    <p id="transit-location">Reached at Tenkasi,Post office</p>
+                </div>
+            </div>
+
+            <!-- Step 4: Delivered -->
+            <div class="timeline-step">
+                <div class="step-icon-bubble pending">👍</div>
+                <div class="step-content-box pending">
+                    <h5>Delivered successfully</h5>
+                    <p>Not delivered yet</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const orderData = JSON.parse(localStorage.getItem('stepup_last_order') || '{}');
+        if (orderData.item) {
+            document.getElementById('track-prod-img').src = orderData.item.image;
+            document.getElementById('track-prod-brand').innerText = orderData.item.brand;
+            document.getElementById('track-prod-title').innerText = orderData.item.title;
+            document.getElementById('track-pay-amount').innerText = 'Cash on Delivery ' + (orderData.total || '₹ 2,799');
+            if (orderData.city) {
+                document.getElementById('transit-location').innerText = `Reached at ${orderData.city},Post office`;
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed | StepUp.in{% endblock %}
+
+{% block extra_css %}
+<style>
+.success-page-main {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 4% 90px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+.success-card {
+    width: 100%;
+    max-width: 540px;
+    background: #FFFFFF;
+    border: 1px solid #777777;
+    padding: 45px 35px 40px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* Animated Checkmark Badge with Confetti Dots */
+.badge-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #2F4F4F;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 26px;
+    z-index: 2;
+}
+
+.confetti-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #2F4F4F;
+}
+
+.dot1 { top: 0; left: 38px; }
+.dot2 { top: 12px; right: 10px; width: 4px; height: 4px; }
+.dot3 { bottom: 10px; right: 8px; }
+.dot4 { bottom: 2px; left: 38px; width: 5px; height: 5px; }
+.dot5 { bottom: 14px; left: 8px; width: 4px; height: 4px; }
+.dot6 { top: 14px; left: 6px; }
+
+.success-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 12px;
+}
+
+.success-desc {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-view-order {
+    padding: 9px 28px;
+    background: #FFFFFF;
+    color: #111111;
+    border: 1px solid #777777;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.btn-track-order {
+    padding: 9px 28px;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.btn-track-order:hover {
+    background: #223838;
+}
+</style>
+{% endblock %}
+
+{% block subheader %}
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="success-page-main">
+    <div class="success-card">
+        
+        <!-- Confetti Circle Badge -->
+        <div class="badge-wrapper">
+            <span class="confetti-dot dot1"></span>
+            <span class="confetti-dot dot2"></span>
+            <span class="confetti-dot dot3"></span>
+            <span class="confetti-dot dot4"></span>
+            <span class="confetti-dot dot5"></span>
+            <span class="confetti-dot dot6"></span>
+            <div class="check-circle">&#10003;</div>
+        </div>
+
+        <h3 class="success-title">Thankyou for your ordering</h3>
+        <p class="success-desc">
+            We've received your order will ship in 5-7 business days.<br>
+            Your order number is <strong id="display-order-no">#Bh2300006</strong>
+        </p>
+
+        <div class="success-actions">
+            <a href="{% url 'home' %}" class="btn-view-order">View Order</a>
+            <!-- Click Track Order to navigate to Track Order page -->
+            <a href="{% url 'track_order' %}" class="btn-track-order">Track Order</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

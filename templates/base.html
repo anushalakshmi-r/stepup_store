@@ -1,0 +1,340 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StepUp.in | Premium Footwear{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Common Navbar -->
+    <header class="main-header">
+        <nav class="navbar">
+            <a href="{% url 'home' %}" class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="StepUp Logo">
+            </a>
+
+            <form class="search-form" action="{% url 'home' %}" method="get">
+                <input type="search" name="q" placeholder="Search here..." aria-label="Search products">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}nav-active{% endif %}">About Us</a>
+                <a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}nav-active{% endif %}">Contact Us</a>
+                <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}nav-active{% endif %}">Log in</a>
+                <a href="{% url 'cart' %}" class="cart-link">Cart <span id="nav-cart-badge">🛒 <b id="cart-counter">0</b></span></a>
+            </div>
+        </nav>
+
+        {% block subheader %}
+        <!-- Default Brand Row for Home -->
+        <div class="brand-heading">
+            <h1>StepUp.in</h1>
+        </div>
+        {% endblock %}
+
+      <!-- Category Navigation with Mega Dropdowns -->
+        <div class="category-nav">
+
+            <!-- 1. WOMENS (Hover Mega Menu) -->
+            <div class="nav-dropdown-item category-hover-item">
+                <a href="{% url 'womens' %}" class="nav-trigger-link {% if request.resolver_match.url_name == 'womens' %}category-active{% endif %}">Womens</a>
+                
+                <!-- Womens Category Mega Menu -->
+                <div class="category-mega-menu">
+                    <div class="category-mega-grid">
+                        <!-- Col 1 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">New Arrivals</h5>
+                            <a href="#new-arrivals">View all</a>
+                        </div>
+
+                        <!-- Col 2 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Sandals</h5>
+                            <a href="#sandals-all">View all</a>
+                            <a href="#flat">Flat</a>
+                            <a href="#flip-flop">Flip Flop</a>
+                            <a href="#slider">Slider</a>
+                            <a href="#strappy">Strappy</a>
+                        </div>
+
+                        <!-- Col 3 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Trainers</h5>
+                            <a href="#trainers-all">View all</a>
+                            <a href="#chunky">Chunky</a>
+                            <a href="#lace-up">Lace Up</a>
+                            <a href="#slip-on">Slip On</a>
+                        </div>
+
+                        <!-- Col 4 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Canvas</h5>
+                            <a href="#canvas-all">View all</a>
+                            <a href="#lace-up">Lace Up</a>
+                            <a href="#slip-on">Slip On</a>
+                        </div>
+
+                        <!-- Col 5 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Shoes</h5>
+                            <a href="#shoes-all">View all</a>
+                            <a href="#ballerina">Ballerina</a>
+                            <a href="#brogue">Brogue</a>
+                            <a href="#flat-shoes">Flat</a>
+                            <a href="#heel">Heel</a>
+                            <a href="#leather">Leather</a>
+                            <a href="#party">Party</a>
+                            <a href="#school">School</a>
+                        </div>
+
+                        <!-- Col 6 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Safety Footwear</h5>
+                            <a href="#safety-all">View all</a>
+                        </div>
+
+                        <!-- Col 7 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Boots</h5>
+                            <a href="#boots-all">View all</a>
+                            <a href="#ankle">Ankle</a>
+                            <a href="#biker">Biker</a>
+                            <a href="#heel-boots">Heel</a>
+                            <a href="#knee-high">Knee High</a>
+                            <a href="#lace-up-boots">Lace up</a>
+                            <a href="#leather-boots">Leather</a>
+                        </div>
+
+                        <!-- Col 8 -->
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Slippers</h5>
+                            <a href="#slippers-all">View all</a>
+                            <a href="#easy-fasten">Easy Fasten</a>
+                            <a href="#full">Full</a>
+                            <a href="#moccasin">Moccasin</a>
+                            <a href="#mule">Mule</a>
+                            <a href="#slipper-boots">Slipper Boots</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. MENS (Hover Mega Menu) -->
+            <div class="nav-dropdown-item category-hover-item">
+                <a href="{% url 'mens' %}" class="nav-trigger-link {% if request.resolver_match.url_name == 'mens' %}category-active{% endif %}">Mens</a>
+                
+                <!-- Mens Category Mega Menu -->
+                <div class="category-mega-menu">
+                    <div class="category-mega-grid">
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">New Arrivals</h5>
+                            <a href="#new-arrivals">View all</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Sandals</h5>
+                            <a href="#sandals-all">View all</a>
+                            <a href="#leather-sandals">Leather</a>
+                            <a href="#strap-sandals">Strap Sandals</a>
+                            <a href="#sliders">Sliders</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Trainers</h5>
+                            <a href="#trainers-all">View all</a>
+                            <a href="#running">Running</a>
+                            <a href="#lace-up">Lace Up</a>
+                            <a href="#slip-on">Slip On</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Canvas</h5>
+                            <a href="#canvas-all">View all</a>
+                            <a href="#lace-up">Lace Up</a>
+                            <a href="#slip-on">Slip On</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Shoes</h5>
+                            <a href="#shoes-all">View all</a>
+                            <a href="#formal">Formal</a>
+                            <a href="#loafers">Loafers</a>
+                            <a href="#brogues">Brogues</a>
+                            <a href="#boat-shoes">Boat Shoes</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Safety Footwear</h5>
+                            <a href="#safety-all">View all</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Boots</h5>
+                            <a href="#boots-all">View all</a>
+                            <a href="#ankle-boots">Ankle</a>
+                            <a href="#warm-boots">Warm Boots</a>
+                            <a href="#leather-boots">Leather</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Slippers</h5>
+                            <a href="#slippers-all">View all</a>
+                            <a href="#leather-slippers">Leather Slippers</a>
+                            <a href="#mule">Mule</a>
+                            <a href="#moccasin">Moccasin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. KIDS (Hover Mega Menu) -->
+            <div class="nav-dropdown-item category-hover-item">
+                <a href="{% url 'kids' %}" class="nav-trigger-link {% if request.resolver_match.url_name == 'kids' %}category-active{% endif %}">Kids</a>
+                
+                <!-- Kids Category Mega Menu -->
+                <div class="category-mega-menu">
+                    <div class="category-mega-grid">
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">New Arrivals</h5>
+                            <a href="#new-arrivals">View all</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Sandals</h5>
+                            <a href="#sandals-all">View all</a>
+                            <a href="#girls-sandals">Girls Sandals</a>
+                            <a href="#boys-sandals">Boys Sandals</a>
+                            <a href="#clogs">Waterproof Clogs</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Trainers</h5>
+                            <a href="#trainers-all">View all</a>
+                            <a href="#led-light">LED Light-Up</a>
+                            <a href="#sports-runners">Runners</a>
+                            <a href="#high-ankle">High Ankle</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Canvas</h5>
+                            <a href="#canvas-all">View all</a>
+                            <a href="#cartoon-canvas">Character Canvas</a>
+                            <a href="#slip-on">Slip On</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Shoes</h5>
+                            <a href="#shoes-all">View all</a>
+                            <a href="#school-shoes">School Shoes</a>
+                            <a href="#party-ballerina">Party Ballerina</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Safety Footwear</h5>
+                            <a href="#safety-all">View all</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Boots</h5>
+                            <a href="#boots-all">View all</a>
+                            <a href="#ankle-boots">Ankle Boots</a>
+                            <a href="#velvet-boots">Warm Velvet</a>
+                        </div>
+                        <div class="cat-menu-col">
+                            <h5 class="cat-menu-title">Slippers</h5>
+                            <a href="#slippers-all">View all</a>
+                            <a href="#toddler-slippers">Toddler Slippers</a>
+                            <a href="#character-slippers">Character Slippers</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. BRANDS -->
+            <div class="nav-dropdown-item" id="brands-wrapper">
+                <a href="javascript:void(0)" class="nav-trigger-link" onclick="toggleBrandsMenu(event)">Brands</a>
+                <div class="mega-brands-menu" id="brands-mega-menu" style="display: none;">
+                    <div class="mega-brands-grid">
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">B</h5><a href="#barbie">Barbie</a><a href="#beckett">Beckett</a><a href="#bluey">Bluey</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">C</h5><a href="#comfort-plus">Comfort Plus</a><a href="#comfy-steps">Comfy steps</a><a href="#crocs">Crocs</a><a href="#cushion-walk">Cushion Walk</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">D</h5><a href="#disney-frozen">Disney frozen</a><a href="#disney-stitch">Disney stitch</a><a href="#divaz">Divaz</a><a href="#dunlop">Dunlop</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">E</h5><a href="#earthworks">EarthWorks</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">G</h5><a href="#gabbys-dollhouse">Gabbys Dollhouse</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">H</h5><a href="#heart">Heart</a><a href="#heavenly-feet">Heavenly feet</a><a href="#hobos">Hobos</a><a href="#hush-puppies">Hush puppies</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">J</h5><a href="#jo-joe">Jo& Joe</a><a href="#juju">JuJu</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">K</h5><a href="#kickers">Kickers</a><a href="#krush">Krush</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">L</h5><a href="#lambretta">Lambretta</a><a href="#lilley">Lilley</a><a href="#lol">LoL</a><a href="#lotus">Lotus</a><a href="#lunar">Lunar</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">M</h5><a href="#marco">Marco</a><a href="#lozzi">Lozzi</a><a href="#marvel">Marvel</a><a href="#maya">Maya</a><a href="#grace">grace</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">O</h5><a href="#original-penguin">Original penguin</a><a href="#osaga">Osaga</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">P</h5><a href="#paw-patrol">Paw patrol</a><a href="#pokemon">Pokemon</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">R</h5><a href="#red-fish">Red fish</a><a href="#red-level">Red level</a><a href="#regatta">Regatta</a><a href="#rieker">Rieker</a><a href="#rocket-dog">Rocket Dog</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">S</h5><a href="#skechers">Skechers</a><a href="#soft-line">Soft line</a><a href="#softlites">Softlites</a><a href="#spider-man">Spider-man</a><a href="#stone-creek">Stone creek</a><a href="#super-mario">Super mario</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">T</h5><a href="#totes-isotoner">Totes isotoner</a><a href="#trespass">Trespass</a><a href="#truffle">Truffle</a><a href="#trux">Trux</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">U</h5><a href="#umbro">Umbro</a></div>
+                        </div>
+                        <div class="brand-alpha-col">
+                            <div class="brand-group"><h5 class="alpha-letter">W</h5><a href="#walkright">Walkright</a><a href="#wednesday">Wednesday</a><a href="#wrangler">Wrangler</a></div>
+                            <div class="brand-group"><h5 class="alpha-letter">X</h5><a href="#xl">XL</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. OFFERS -->
+            <div class="nav-dropdown-item" id="offers-wrapper">
+                <a href="javascript:void(0)" class="nav-trigger-link" onclick="toggleOffersMenu(event)">Offers</a>
+                <div class="offers-menu-box" id="offers-box" style="display: none;">
+                    <span class="offers-subheading">SAVE</span>
+                    <ul class="offers-items-list">
+                        <li><a href="#two-pairs">Two pairs for thousand</a></li>
+                        <li><a href="#clearance">Clerance Outlet</a></li>
+                        <li><a href="#boots-sale">Boots Sale</a></li>
+                        <li><a href="#all-offers">View all offers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+            <!-- Offers dropdown -->
+            <div class="nav-dropdown-item offers-dropdown-trigger">
+                <a href="#offers" class="nav-trigger-link" aria-expanded="false" aria-controls="offers-box">Offers</a>
+                
+                <div class="offers-menu-box" id="offers-box">
+                    <span class="offers-subheading">SAVE</span>
+                    <ul class="offers-items-list">
+                        <li><a href="#two-pairs">Two pairs for thousand</a></li>
+                        <li><a href="#clearance">Clerance Outlet</a></li>
+                        <li><a href="#boots-sale">Boots Sale</a></li>
+                        <li><a href="#all-offers">View all offers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Page Specific Dynamic Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% include 'partials/footer.html' %}
+    <script src="{% static 'js/navbar.js' %}?v=3"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

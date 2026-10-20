@@ -1,0 +1,1074 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Women's Footwear Collection | StepUp.in{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ==========================================
+   Womens Page Custom Styling
+   ========================================== */
+.womens-page-main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 25px 4% 70px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+/* Red Active Category Link */
+.category-active {
+    color: #E63946 !important;
+    font-weight: 700;
+}
+
+/* Control Bar (Filters & Sort By) */
+.catalog-control-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+    position: relative;
+    z-index: 10;
+}
+
+.filter-box-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #777777;
+    background: #FFFFFF;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+/* Sort By Dropdown Widget */
+.sort-widget-container {
+    position: relative;
+    width: 145px;
+}
+
+.sort-header-btn {
+    width: 100%;
+    background-color: #2F4F4F;
+    color: #FFFFFF;
+    border: none;
+    padding: 7px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    font-family: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sort-options-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #777777;
+    border-top: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sort-option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #111111;
+    cursor: pointer;
+    border-bottom: 1px solid #EEEEEE;
+    transition: background 0.2s ease;
+}
+
+.sort-option-item:hover {
+    background-color: #F8F9FA;
+}
+
+.sort-option-item.selected {
+    font-weight: 700;
+}
+
+/* 4-Column Footwear Products Grid */
+.womens-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 22px;
+    row-gap: 38px;
+}
+
+.footwear-card {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footwear-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.footwear-img-box {
+    width: 100%;
+    aspect-ratio: 1.1 / 1;
+    background-color: #F0F2F2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.footwear-img-box img {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.footwear-card:hover .footwear-img-box img {
+    transform: scale(1.05);
+}
+
+/* Product Meta Info */
+.brand-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 2px;
+}
+
+.item-title {
+    font-size: 11px;
+    color: #333333;
+    line-height: 1.35;
+    min-height: 28px;
+    margin: 0 0 5px;
+}
+
+.rating-stars {
+    color: #FFB800;
+    font-size: 12px;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.rating-stars .empty-star {
+    color: #D3D3D3;
+}
+
+.item-price {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 8px;
+}
+
+/* Color Swatches */
+.color-choice-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    margin-bottom: 14px;
+}
+
+.color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Action Buttons (Buy & Add to Cart) */
+.card-actions-row {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.btn-buy {
+    flex: 1;
+    background: #FFFFFF;
+    color: #2F4F4F;
+    border: 1px solid #777777;
+    border-radius: 3px;
+    padding: 6px 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-buy:hover {
+    background: #F4F6F6;
+}
+
+.btn-cart {
+    flex: 1.35;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-cart:hover {
+    background: #233b3b;
+}
+
+/* Dynamic State for Added to Cart */
+.btn-cart.in-cart {
+    background: #C93B3B;
+    color: #FFFFFF;
+}
+.btn-cart.in-cart:hover {
+    background: #9E1F1F;
+}
+
+/* Bottom View All Button */
+.view-all-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 35px;
+}
+
+.view-all-pill-btn {
+    background-color: #2F4F4F;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.view-all-pill-btn:hover {
+    background-color: #223838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .womens-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 16px;
+    }
+}
+
+@media (max-width: 720px) {
+    .womens-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 12px;
+        row-gap: 24px;
+    }
+}
+
+@media (max-width: 460px) {
+    .womens-products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==========================================
+   Interactive Filter Dropdowns Bar
+   ========================================== */
+.catalog-control-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 100;
+}
+
+.filters-system-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-box-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #777777;
+    background: #FFFFFF;
+    padding: 7px 18px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111111;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+    height: 36px;
+    transition: background 0.2s ease;
+}
+
+.filter-box-btn:hover {
+    background: #F4F6F6;
+}
+
+/* Horizontal Shelf for the 4 Dropdown Groups */
+.filters-dropdown-shelf {
+    display: none; /* Initially hidden, opens on clicking Filters */
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
+}
+
+.filters-dropdown-shelf.open {
+    display: flex;
+}
+
+.filter-dropdown-group {
+    position: relative;
+    width: 130px;
+}
+
+.filter-dropdown-group:last-child {
+    width: 150px; /* Wider for color grid */
+}
+
+/* Header Buttons (Style, Size, Brands, Color) */
+.filter-group-btn {
+    width: 100%;
+    height: 36px;
+    background-color: #E2E5E5;
+    color: #111111;
+    border: 1px solid #B0B5B5;
+    border-bottom: none;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.arrow-indicator {
+    font-size: 10px;
+    color: #222222;
+}
+
+/* Dropdown Menu Boxes */
+.filter-menu-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #B0B5B5;
+    border-top: none;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    z-index: 105;
+}
+
+.filter-menu-list li {
+    padding: 5px 14px;
+    font-size: 11px;
+    color: #111111;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.filter-menu-list li:hover {
+    background-color: #F0F4F4;
+    font-weight: 700;
+}
+
+/* Size List Specifics */
+.size-menu-content {
+    padding: 10px 14px;
+}
+
+.size-category-group {
+    margin-bottom: 8px;
+}
+
+.size-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 2px;
+}
+
+.size-item {
+    display: block;
+    font-size: 10.5px;
+    color: #333333;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.size-item:hover {
+    font-weight: 700;
+    color: #000000;
+}
+
+/* Color Palette Grid (3 columns x 3 rows) */
+.colors-palette-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 6px;
+    padding: 14px 10px;
+    text-align: center;
+}
+
+.color-palette-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-palette-item:hover {
+    transform: scale(1.08);
+}
+
+.color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+.color-name {
+    font-size: 9.5px;
+    color: #222222;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 900px) {
+    .filters-dropdown-shelf {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .filter-dropdown-group,
+    .filter-dropdown-group:last-child {
+        width: 100%;
+    }
+
+    .filter-menu-list {
+        position: static;
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block subheader %}
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="womens-page-main">
+
+    <!-- Filters & Sort Bar -->
+    <div class="catalog-control-bar">
+        
+        <div class="filters-system-wrapper">
+            <!-- Filter Main Toggle Button -->
+            <button class="filter-box-btn" type="button" id="filter-master-toggle" onclick="toggleFilterPanels()">
+                <span>Filters</span> <span id="filter-arrow-icon">&#10132;</span>
+            </button>
+
+            <!-- Dropdown Panels Row (Opens when Filters is clicked) -->
+            <div class="filters-dropdown-shelf" id="filters-dropdown-shelf">
+                
+                <!-- 1. Style Filter -->
+                <div class="filter-dropdown-group">
+                    <button type="button" class="filter-group-btn" onclick="toggleSingleDropdown('style-menu', this)">
+                        <span>Style</span> <span class="arrow-indicator">&#9650;</span>
+                    </button>
+                    <ul class="filter-menu-list" id="style-menu">
+                        <li onclick="applyFilter('style', 'New Arrivals')">New Arrivals</li>
+                        <li onclick="applyFilter('style', 'Sandals')">Sandals</li>
+                        <li onclick="applyFilter('style', 'Trainers')">Trainers</li>
+                        <li onclick="applyFilter('style', 'Boots')">Boots</li>
+                        <li onclick="applyFilter('style', 'Slippers')">Slippers</li>
+                        <li onclick="applyFilter('style', 'Canvas')">Canvas</li>
+                        <li onclick="applyFilter('style', 'Summer Shop')">Summer Shop</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Size Filter -->
+                <div class="filter-dropdown-group">
+                    <button type="button" class="filter-group-btn" onclick="toggleSingleDropdown('size-menu', this)">
+                        <span>Size</span> <span class="arrow-indicator">&#9650;</span>
+                    </button>
+                    <div class="filter-menu-list size-menu-content" id="size-menu">
+                        <div class="size-category-group">
+                            <span class="size-title">Junior</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(3)')">UK(3)</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(4)')">UK(4)</span>
+                        </div>
+                        <div class="size-category-group">
+                            <span class="size-title">Adult</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(3)')">UK(3)</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(4)')">UK(4)</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(5)')">UK(5)</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(6)')">UK(6)</span>
+                            <span class="size-item" onclick="applyFilter('size', 'UK(7)')">UK(7)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Brands Filter -->
+                <div class="filter-dropdown-group">
+                    <button type="button" class="filter-group-btn" onclick="toggleSingleDropdown('brands-menu', this)">
+                        <span>Brands</span> <span class="arrow-indicator">&#9650;</span>
+                    </button>
+                    <ul class="filter-menu-list" id="brands-menu">
+                        <li onclick="applyFilter('brand', 'Becket')">Becket</li>
+                        <li onclick="applyFilter('brand', 'Comfy Steps')">Comfy Steps</li>
+                        <li onclick="applyFilter('brand', 'Kickers')">Kickers</li>
+                        <li onclick="applyFilter('brand', 'Lambretta')">Lambretta</li>
+                        <li onclick="applyFilter('brand', 'Marvel')">Marvel</li>
+                        <li onclick="applyFilter('brand', 'Skechers')">Skechers</li>
+                        <li onclick="applyFilter('brand', 'Totes')">Totes</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Color Filter -->
+                <div class="filter-dropdown-group">
+                    <button type="button" class="filter-group-btn" onclick="toggleSingleDropdown('colors-menu', this)">
+                        <span>Color</span> <span class="arrow-indicator">&#9650;</span>
+                    </button>
+                    <div class="filter-menu-list colors-palette-grid" id="colors-menu">
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Black')">
+                            <span class="color-circle" style="background-color: #000000;"></span>
+                            <span class="color-name">Black</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Blue')">
+                            <span class="color-circle" style="background-color: #1E90FF;"></span>
+                            <span class="color-name">Blue</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Orange')">
+                            <span class="color-circle" style="background-color: #FF7F50;"></span>
+                            <span class="color-name">Orange</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Green')">
+                            <span class="color-circle" style="background-color: #32CD32;"></span>
+                            <span class="color-name">Green</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Brown')">
+                            <span class="color-circle" style="background-color: #704214;"></span>
+                            <span class="color-name">Brown</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'White')">
+                            <span class="color-circle" style="background-color: #FFFFFF; border: 1px solid #CCCCCC;"></span>
+                            <span class="color-name">White</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Yellow')">
+                            <span class="color-circle" style="background-color: #FFFF00;"></span>
+                            <span class="color-name">Yellow</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Red')">
+                            <span class="color-circle" style="background-color: #FF0000;"></span>
+                            <span class="color-name">Red</span>
+                        </div>
+                        <div class="color-palette-item" onclick="applyFilter('color', 'Grey')">
+                            <span class="color-circle" style="background-color: #A9A9A9;"></span>
+                            <span class="color-name">Grey</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Sort By Dropdown Widget -->
+        <div class="sort-widget-container">
+            <button class="sort-header-btn" id="sort-toggle-btn" type="button" onclick="toggleSortMenu()">
+                Sort by
+            </button>
+            <ul class="sort-options-list" id="sort-dropdown-menu">
+                <li class="sort-option-item selected" onclick="sortCatalog('featured', this)">
+                    <span>Featured</span> <span>&#10003;</span>
+                </li>
+                <li class="sort-option-item" onclick="sortCatalog('new', this)">New Arrivals</li>
+                <li class="sort-option-item" onclick="sortCatalog('low-high', this)">Price:Low-High</li>
+                <li class="sort-option-item" onclick="sortCatalog('high-low', this)">Price:High-Low</li>
+                <li class="sort-option-item" onclick="sortCatalog('rating', this)">Overall Rating</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footwear Products Grid -->
+    <div class="womens-products-grid" id="products-grid">
+        
+        <!-- Product 1 -->
+        <div class="footwear-card" data-id="wm-1" data-price="2799" data-rating="5" data-name="Fancy Womens Lilac Sandal">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod1.png' %}" alt="Lunar Lilac Sandal">
+            </div>
+            <h4 class="brand-name">Lunar</h4>
+            <p class="item-title">Fancy Womens Lilac Sandal</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 2,799</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #6F4E37;"></span>
+                <span class="color-dot" style="background: #FFFFFF;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-1', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="footwear-card" data-id="wm-2" data-price="3799" data-rating="5" data-name="Drew Womens Diamante Slip Shoe">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod2.png' %}" alt="Lilley Drew Diamante">
+            </div>
+            <h4 class="brand-name">Lilley</h4>
+            <p class="item-title">Drew Womens Diamante Slip Shoe</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 3,799</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #FFFFFF;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-2', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="footwear-card" data-id="wm-3" data-price="2699" data-rating="4" data-name="Selina Womens Navy Sandal">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod3.png' %}" alt="Softlites Selina Sandal">
+            </div>
+            <h4 class="brand-name">Softlites</h4>
+            <p class="item-title">Selina Womens Navy Sandal</p>
+            <div class="rating-stars">★★★★<span class="empty-star">★</span></div>
+            <p class="item-price">MRP ₹ 2,699</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #1C2E4A;"></span>
+                <span class="color-dot" style="background: #8B5A2B;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-3', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="footwear-card" data-id="wm-4" data-price="2799" data-rating="5" data-name="Sadie Womens Floral Beach Mule">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod4.png' %}" alt="Shoezone Floral Mule">
+            </div>
+            <h4 class="brand-name">shoezone</h4>
+            <p class="item-title">Sadie Womens Floral Beach Mule</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 2,799</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #502737;"></span>
+                <span class="color-dot" style="background: #8282B0;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-4', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="footwear-card" data-id="wm-5" data-price="5999" data-rating="5" data-name="Ophelia Womens Silver Heel">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod5.png' %}" alt="Truffle Silver Heel">
+            </div>
+            <h4 class="brand-name">Truffle</h4>
+            <p class="item-title">Ophelia Womens Silver Heel</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 5,999</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #C0C0C0;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-5', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="footwear-card" data-id="wm-6" data-price="3799" data-rating="4" data-name="Audrey Womens Patent Lace Shoe">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod6.png' %}" alt="Audrey Patent Lace">
+            </div>
+            <h4 class="brand-name">Lilley</h4>
+            <p class="item-title">Audrey Womens Patent Lace Shoe</p>
+            <div class="rating-stars">★★★★<span class="empty-star">★</span></div>
+            <p class="item-price">MRP ₹ 3,799</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #4A3B32;"></span>
+                <span class="color-dot" style="background: #FFFFFF;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-6', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="footwear-card" data-id="wm-7" data-price="3599" data-rating="3" data-name="Noelle mesh Bow Ballerinas">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod7.png' %}" alt="Noelle mesh Bow Ballerinas">
+            </div>
+            <h4 class="brand-name">Noelle mesh Bow</h4>
+            <p class="item-title">Ballerinas</p>
+            <div class="rating-stars">★★★<span class="empty-star">★★</span></div>
+            <p class="item-price">MRP ₹ 3,599</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #5C4033;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-7', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="footwear-card" data-id="wm-8" data-price="1999" data-rating="3" data-name="Stella flat Embellished Sliders">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod8.png' %}" alt="Stella Flat Sliders">
+            </div>
+            <h4 class="brand-name">Stella flat Embellished</h4>
+            <p class="item-title">Sliders</p>
+            <div class="rating-stars">★★★<span class="empty-star">★★</span></div>
+            <p class="item-price">MRP ₹ 1,999</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+                <span class="color-dot" style="background: #662B34;"></span>
+                <span class="color-dot" style="background: #FFFFFF;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-8', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 9 -->
+        <div class="footwear-card" data-id="wm-9" data-price="3199" data-rating="5" data-name="Olivia Pencil Heels">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod9.png' %}" alt="Olivia Pencil Heels">
+            </div>
+            <h4 class="brand-name">Olivia Pencil Heels</h4>
+            <p class="item-title">Glossy Stiletto Party Heel</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 3,199</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #000000;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-9', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 10 -->
+        <div class="footwear-card" data-id="wm-10" data-price="3699" data-rating="5" data-name="Amelia Kitten Heels">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod10.png' %}" alt="Amelia Kitten Heels">
+            </div>
+            <h4 class="brand-name">Amelia Kitten Heels</h4>
+            <p class="item-title">Pointed Toe Embellished Mule</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 3,699</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #F5F5DC;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-10', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 11 -->
+        <div class="footwear-card" data-id="wm-11" data-price="2599" data-rating="5" data-name="Beckett Sandals">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod11.png' %}" alt="Beckett Sandals">
+            </div>
+            <h4 class="brand-name">Beckett Sandals</h4>
+            <p class="item-title">Everyday Comfort Wedge Sandal</p>
+            <div class="rating-stars">★★★★★</div>
+            <p class="item-price">MRP ₹ 2,599</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #D3D3D3;"></span>
+                <span class="color-dot" style="background: #FFFFFF;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-11', this)">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Product 12 -->
+        <div class="footwear-card" data-id="wm-12" data-price="1799" data-rating="4" data-name="Gitano Flat back Elastic Sandals">
+            <div class="footwear-img-box">
+                <img src="{% static 'images/womens/prod12.png' %}" alt="Gitano Elastic Sandals">
+            </div>
+            <h4 class="brand-name">Gitano Flat back Elastic</h4>
+            <p class="item-title">Sandals</p>
+            <div class="rating-stars">★★★★<span class="empty-star">★</span></div>
+            <p class="item-price">MRP ₹ 1,799</p>
+            <div class="color-choice-row">
+                <span>Color</span>
+                <span class="color-dot" style="background: #E1A95F;"></span>
+            </div>
+            <div class="card-actions-row">
+                <button class="btn-buy" type="button">Buy</button>
+                <button class="btn-cart" type="button" onclick="toggleCart('wm-12', this)">Add to Cart</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- View All Button -->
+    <div class="view-all-container">
+        <a href="#view-more" class="view-all-pill-btn">View all</a>
+    </div>
+
+</main>
+
+<!-- Interactive Cart & Sorting JavaScript -->
+<script>
+    // Toggle Master Filter Shelf & Flip Arrow Icon
+    function toggleFilterPanels() {
+        const shelf = document.getElementById('filters-dropdown-shelf');
+        const arrow = document.getElementById('filter-arrow-icon');
+        
+        if (shelf.classList.contains('open')) {
+            shelf.classList.remove('open');
+            arrow.innerHTML = '&#10132;'; // Right Arrow ➔
+        } else {
+            shelf.classList.add('open');
+            arrow.innerHTML = '&#11013;'; // Left Arrow ⬅ (matching Figma screenshot)
+        }
+    }
+
+    // Toggle individual menus (Optional if user wants to collapse one)
+    function toggleSingleDropdown(menuId, buttonEl) {
+        const menu = document.getElementById(menuId);
+        const indicator = buttonEl.querySelector('.arrow-indicator');
+        
+        if (menu.style.display === 'none') {
+            menu.style.display = 'block';
+            if (indicator) indicator.innerHTML = '&#9650;'; // Up ▲
+        } else {
+            menu.style.display = 'none';
+            if (indicator) indicator.innerHTML = '&#9660;'; // Down ▼
+        }
+    }
+
+    // Apply Filter Functionality
+    function applyFilter(filterType, value) {
+        console.log(`Filtering by ${filterType}: ${value}`);
+        // Here you can integrate backend query params or dynamic frontend search filtering
+    }
+    // --- 1. Dynamic Cart Logic (LocalStorage based) ---
+    function getStoredCart() {
+        const cart = localStorage.getItem('stepup_cart');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem('stepup_cart', JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const cart = getStoredCart();
+        const badge = document.getElementById('cart-counter');
+        if (badge) {
+            badge.innerText = cart.length;
+        }
+    }
+
+    function toggleCart(productId, buttonElement) {
+        let cart = getStoredCart();
+        const index = cart.indexOf(productId);
+
+        if (index > -1) {
+            // Remove from cart
+            cart.splice(index, 1);
+            buttonElement.innerText = "Add to Cart";
+            buttonElement.classList.remove('in-cart');
+        } else {
+            // Add to cart
+            cart.push(productId);
+            buttonElement.innerText = "Remove";
+            buttonElement.classList.add('in-cart');
+        }
+        saveCart(cart);
+    }
+
+    // Restore button states on page load
+    function initButtons() {
+        const cart = getStoredCart();
+        updateCartBadge();
+        const cards = document.querySelectorAll('.footwear-card');
+        cards.forEach(card => {
+            const id = card.getAttribute('data-id');
+            const cartBtn = card.querySelector('.btn-cart');
+            if (cart.includes(id)) {
+                cartBtn.innerText = "Remove";
+                cartBtn.classList.add('in-cart');
+            }
+        });
+    }
+
+    // --- 2. Dynamic Sort By Logic ---
+    function toggleSortMenu() {
+        const menu = document.getElementById('sort-dropdown-menu');
+        menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+    }
+
+    function sortCatalog(sortType, element) {
+        // Update checkmark UI
+        document.querySelectorAll('.sort-option-item').forEach(item => {
+            item.classList.remove('selected');
+            const check = item.querySelector('span:last-child');
+            if (check && check.innerText === '✓') check.remove();
+        });
+        element.classList.add('selected');
+        element.innerHTML = `<span>${element.innerText}</span> <span>&#10003;</span>`;
+
+        const grid = document.getElementById('products-grid');
+        const cards = Array.from(grid.getElementsByClassName('footwear-card'));
+
+        cards.sort((a, b) => {
+            const priceA = parseInt(a.getAttribute('data-price'));
+            const priceB = parseInt(b.getAttribute('data-price'));
+            const ratingA = parseInt(a.getAttribute('data-rating'));
+            const ratingB = parseInt(b.getAttribute('data-rating'));
+
+            if (sortType === 'low-high') return priceA - priceB;
+            if (sortType === 'high-low') return priceB - priceA;
+            if (sortType === 'rating') return ratingB - ratingA;
+            return 0; // Default featured
+        });
+
+        cards.forEach(card => grid.appendChild(card));
+        document.getElementById('sort-dropdown-menu').style.display = 'none';
+    }
+
+    // Close sort dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const widget = document.querySelector('.sort-widget-container');
+        const menu = document.getElementById('sort-dropdown-menu');
+        if (widget && !widget.contains(e.target)) {
+            menu.style.display = 'none';
+        }
+    });
+
+    // Run on startup
+    document.addEventListener('DOMContentLoaded', initButtons);
+
+    function getStoredCartItems() {
+        const cart = localStorage.getItem('stepup_cart_items');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    function saveCartItems(cart) {
+        localStorage.setItem('stepup_cart_items', JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const cart = getStoredCartItems();
+        const badge = document.getElementById('cart-counter');
+        if (badge) {
+            badge.innerText = cart.length;
+        }
+    }
+
+    function toggleCart(productId, buttonElement) {
+        let cart = getStoredCartItems();
+        const existingIndex = cart.findIndex(item => item.id === productId);
+
+        if (existingIndex > -1) {
+            cart.splice(existingIndex, 1);
+            buttonElement.innerText = "Add to Cart";
+            buttonElement.classList.remove('in-cart');
+        } else {
+            const card = buttonElement.closest('.footwear-card');
+            const brand = card.querySelector('.brand-name').innerText.trim();
+            const title = card.querySelector('.item-title').innerText.trim();
+            const price = parseInt(card.getAttribute('data-price')) || 2799;
+            const imgSrc = card.querySelector('.footwear-img-box img').getAttribute('src');
+
+            cart.push({
+                id: productId,
+                brand: brand,
+                title: title,
+                price: price,
+                image: imgSrc,
+                size: 41,
+                quantity: 1
+            });
+
+            buttonElement.innerText = "Remove";
+            buttonElement.classList.add('in-cart');
+        }
+        saveCartItems(cart);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,572 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Cart | StepUp.in{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ==========================================
+   Cart Page Layout & Styling
+   ========================================== */
+.cart-page-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 4% 80px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: #222222;
+}
+
+.cart-main-heading {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 25px;
+}
+
+/* Fast Delivery Banner */
+.delivery-timer-box {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid #777777;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 13.5px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 35px;
+}
+
+.delivery-timer-box strong {
+    color: #111111;
+}
+
+/* Cart Items Container */
+.cart-items-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.cart-item-img-box {
+    width: 150px;
+    height: 120px;
+    background-color: #F0F2F2;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.cart-item-img-box img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.cart-item-details {
+    flex: 1.2;
+}
+
+.item-brand-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 4px;
+}
+
+.item-sub-name {
+    font-size: 12.5px;
+    color: #444444;
+    margin: 0 0 8px;
+}
+
+.item-mrp-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+}
+
+/* Options (Size, Quantity, Remove) */
+.cart-item-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 140px;
+}
+
+.custom-select {
+    padding: 6px 10px;
+    border: 1px solid #888888;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 11.5px;
+    background: #FFFFFF;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-remove-item {
+    background: transparent;
+    border: none;
+    color: #222222;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    align-self: flex-start;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.btn-remove-item:hover {
+    color: #C93B3B;
+}
+
+/* Cart Summary */
+.cart-summary-section {
+    padding: 10px 0 25px;
+    border-bottom: 1.5px solid #2F4F4F;
+    margin-bottom: 30px;
+}
+
+.summary-heading {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 8px;
+}
+
+.summary-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.summary-data-row.total-row {
+    font-weight: 700;
+}
+
+.delivery-info-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: #333333;
+    text-decoration: underline;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+/* Checkout Button */
+.btn-checkout-securely {
+    width: 100%;
+    background-color: #2F4F4F;
+    color: #FFFFFF;
+    border: none;
+    padding: 14px 20px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-bottom: 25px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-checkout-securely:hover {
+    background-color: #223a3a;
+}
+
+/* Express Checkout Gateways */
+.express-checkout-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.express-checkout-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111;
+    align-self: flex-start;
+    margin: 0;
+}
+
+.payment-gateway-btn {
+    width: 100%;
+    height: 44px;
+    background: #FFFFFF;
+    border: 1px solid #333333;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.payment-gateway-btn:hover {
+    background-color: #F8F9FA;
+    transform: translateY(-1px);
+}
+
+.gateway-text {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.gateway-paypal {
+    color: #003087;
+    font-style: italic;
+    font-size: 20px;
+}
+.gateway-paypal span {
+    color: #0079C1;
+}
+
+.gateway-clearpay {
+    font-family: sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gateway-klarna {
+    font-family: sans-serif;
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+/* Empty Cart State */
+.empty-cart-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-cart-state p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666666;
+}
+
+.btn-start-shopping {
+    display: inline-block;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    padding: 10px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Payment Processing Modal */
+.payment-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-modal-card {
+    background: #FFFFFF;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-close-btn {
+    margin-top: 18px;
+    padding: 8px 24px;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .cart-item-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .cart-item-controls {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+</style>
+{% endblock %}
+
+{% block subheader %}
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="cart-page-main">
+    <h2 class="cart-main-heading">Your Cart</h2>
+
+    <!-- Delivery countdown timer box -->
+    <div class="delivery-timer-box">
+        <strong>Free &amp; Fast arriving by Monday</strong> 
+        Order within <span id="countdown-timer">23 hours,53 minutes,50 seconds</span>
+    </div>
+
+    <!-- Dynamic Cart Items Container -->
+    <div id="cart-content-area">
+        <div class="cart-items-wrapper" id="cart-items-list">
+            <!-- Items will be dynamically inserted here via JavaScript -->
+        </div>
+
+        <!-- Summary Section -->
+        <div class="cart-summary-section">
+            <h4 class="summary-heading">Summary</h4>
+            <div class="summary-data-row total-row">
+                <span>Total</span>
+                <span id="cart-total-price">₹ 0</span>
+            </div>
+            <div class="summary-data-row">
+                <span>Delivery</span>
+                <span>Free</span>
+            </div>
+            <div class="delivery-info-link">
+                <span>Delivery &amp; return information</span> <span>🚚</span>
+            </div>
+        </div>
+
+        <!-- Replace the existing Checkout Securely button in cart.html with this -->
+<a href="{% url 'checkout' %}" class="btn-checkout-securely" style="text-decoration: none;">
+    <span>🔒</span> Checkout Securely
+</a>
+
+        <!-- Express Checkout Buttons -->
+        <div class="express-checkout-box">
+            <h4 class="express-checkout-title">Express Checkout</h4>
+
+            <!-- Google Pay -->
+            <button type="button" class="payment-gateway-btn" onclick="triggerCheckout('Google Pay')">
+                <svg width="60" height="24" viewBox="0 0 1024 416">
+                    <path fill="#4285F4" d="M141.2 186.8v82.3h-27.4V82.5h72.7c19.8 0 36.3 6.6 49.3 19.8 13.1 13.1 19.8 29.5 19.8 49.2 0 19.7-6.7 36.1-19.8 49.3-13.1 13.1-29.5 19.8-49.3 19.8h-45.3v-33.8zm0-70.5v36.8h46.3c10.4 0 19.1-3.6 26-10.8 6.9-7.2 10.4-15.8 10.4-25.9 0-10.1-3.5-18.7-10.4-25.9-6.9-7.2-15.6-10.8-26-10.8h-46.3v36.6z"/>
+                    <path fill="#EA4335" d="M331.4 122.9c16.3 0 29.7 5.7 40.1 17.1l-14.8 14.8c-7-7-15.4-10.6-25.3-10.6-11.8 0-21.7 4.2-29.8 12.6s-12.1 18.7-12.1 30.9c0 12.2 4 22.5 12.1 30.9 8.1 8.4 18 12.6 29.8 12.6 10.3 0 19.1-3.9 26.3-11.6v-18.2h-26.3v-20.3h48.3v47.7c-13.1 13.3-29.1 20-48.3 20-18.7 0-34.6-6.6-47.7-19.8s-19.7-29.4-19.7-48.6c0-19.2 6.6-35.4 19.7-48.6 13.1-13.3 29-19.9 47.7-19.9z"/>
+                </svg>
+            </button>
+
+            <!-- PayPal -->
+            <button type="button" class="payment-gateway-btn" onclick="triggerCheckout('PayPal')">
+                <span class="gateway-paypal">Pay<span>Pal</span></span>
+            </button>
+
+            <!-- Clearpay -->
+            <button type="button" class="payment-gateway-btn" onclick="triggerCheckout('Clearpay')">
+                <span class="gateway-clearpay">clear<span style="border-bottom: 2px solid #000;">pay</span> ⮀</span>
+            </button>
+
+            <!-- Klarna -->
+            <button type="button" class="payment-gateway-btn" onclick="triggerCheckout('Klarna')">
+                <span class="gateway-klarna">Klarna.</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Empty State Area (if no items in cart) -->
+    <div id="cart-empty-area" class="empty-cart-state" style="display: none;">
+        <p>Nimma Cart nalli yavude items illa.</p>
+        <a href="{% url 'mens' %}" class="btn-start-shopping">Start Shopping</a>
+    </div>
+
+    <!-- Payment Modal Simulation -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="payment-modal-card">
+            <h3 style="margin-bottom: 12px;" id="modal-gateway-title">Payment Gateway</h3>
+            <p id="modal-amount-text" style="font-size: 14px; color: #444;">Total Amount: ₹ 0</p>
+            <p style="font-size: 12px; color: #777; margin-top: 10px;">Payment gateway connection successful. Order place aagide!</p>
+            <button class="modal-close-btn" onclick="closePaymentModal()">Close</button>
+        </div>
+    </div>
+</main>
+
+<script>
+    const defaultProductImage = "{% static 'images/mens/prod1.png' %}";
+
+    function getStoredCartItems() {
+        const cart = localStorage.getItem('stepup_cart_items');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    function saveCartItems(cart) {
+        localStorage.setItem('stepup_cart_items', JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const cart = getStoredCartItems();
+        const badge = document.getElementById('cart-counter');
+        if (badge) {
+            badge.innerText = cart.length;
+        }
+    }
+
+    function renderCartPage() {
+        const cart = getStoredCartItems();
+        const cartArea = document.getElementById('cart-content-area');
+        const emptyArea = document.getElementById('cart-empty-area');
+        const itemsList = document.getElementById('cart-items-list');
+
+        if (!cart || cart.length === 0) {
+            cartArea.style.display = 'none';
+            emptyArea.style.display = 'block';
+            updateCartBadge();
+            return;
+        }
+
+        emptyArea.style.display = 'none';
+        cartArea.style.display = 'block';
+        itemsList.innerHTML = '';
+
+        let calculatedTotal = 0;
+
+        cart.forEach((item, index) => {
+            const quantity = parseInt(item.quantity) || 1;
+            const itemPrice = parseInt(item.price) || 2799;
+            calculatedTotal += (itemPrice * quantity);
+
+            const row = document.createElement('div');
+            row.className = 'cart-item-row';
+            row.innerHTML = `
+                <div class="cart-item-img-box">
+                    <img src="${item.image || defaultProductImage}" alt="${item.brand}">
+                </div>
+                <div class="cart-item-details">
+                    <h4 class="item-brand-title">${item.brand}</h4>
+                    <p class="item-sub-name">${item.title}</p>
+                    <p class="item-mrp-price">MRP₹ ${itemPrice.toLocaleString('en-IN')}</p>
+                </div>
+                <div class="cart-item-controls">
+                    <select class="custom-select" onchange="updateItemSize(${index}, this.value)">
+                        <option value="39" ${item.size == 39 ? 'selected' : ''}>Size (39)</option>
+                        <option value="40" ${item.size == 40 ? 'selected' : ''}>Size (40)</option>
+                        <option value="41" ${item.size == 41 || !item.size ? 'selected' : ''}>Size (41)</option>
+                        <option value="42" ${item.size == 42 ? 'selected' : ''}>Size (42)</option>
+                        <option value="43" ${item.size == 43 ? 'selected' : ''}>Size (43)</option>
+                    </select>
+
+                    <select class="custom-select" onchange="updateItemQty(${index}, this.value)">
+                        <option value="1" ${quantity == 1 ? 'selected' : ''}>Quantity (1)</option>
+                        <option value="2" ${quantity == 2 ? 'selected' : ''}>Quantity (2)</option>
+                        <option value="3" ${quantity == 3 ? 'selected' : ''}>Quantity (3)</option>
+                        <option value="4" ${quantity == 4 ? 'selected' : ''}>Quantity (4)</option>
+                        <option value="5" ${quantity == 5 ? 'selected' : ''}>Quantity (5)</option>
+                    </select>
+
+                    <button type="button" class="btn-remove-item" onclick="removeItemFromCart(${index})">
+                        Remove <span>🗑️</span>
+                    </button>
+                </div>
+            `;
+            itemsList.appendChild(row);
+        });
+
+        document.getElementById('cart-total-price').innerText = '₹ ' + calculatedTotal.toLocaleString('en-IN');
+        updateCartBadge();
+    }
+
+    function updateItemSize(index, newSize) {
+        let cart = getStoredCartItems();
+        if (cart[index]) {
+            cart[index].size = newSize;
+            saveCartItems(cart);
+        }
+    }
+
+    function updateItemQty(index, newQty) {
+        let cart = getStoredCartItems();
+        if (cart[index]) {
+            cart[index].quantity = parseInt(newQty);
+            saveCartItems(cart);
+            renderCartPage();
+        }
+    }
+
+    function removeItemFromCart(index) {
+        let cart = getStoredCartItems();
+        cart.splice(index, 1);
+        saveCartItems(cart);
+        renderCartPage();
+    }
+
+    // Payment Trigger
+    function triggerCheckout(gatewayName) {
+        const cart = getStoredCartItems();
+        let total = 0;
+        cart.forEach(item => {
+            total += (parseInt(item.price) || 2799) * (parseInt(item.quantity) || 1);
+        });
+
+        document.getElementById('modal-gateway-title').innerText = gatewayName;
+        document.getElementById('modal-amount-text').innerText = 'Total Amount: ₹ ' + total.toLocaleString('en-IN');
+        document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+        document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    // Real-time Countdown timer simulation
+    let seconds = 50, minutes = 53, hours = 23;
+    setInterval(() => {
+        if (seconds > 0) {
+            seconds--;
+        } else {
+            seconds = 59;
+            if (minutes > 0) minutes--;
+            else { minutes = 59; if (hours > 0) hours--; }
+        }
+        const timerEl = document.getElementById('countdown-timer');
+        if (timerEl) {
+            timerEl.innerText = `${hours} hours,${minutes} minutes,${seconds} seconds`;
+        }
+    }, 1000);
+
+    document.addEventListener('DOMContentLoaded', renderCartPage);
+</script>
+{% endblock %}

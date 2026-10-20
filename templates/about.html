@@ -1,0 +1,300 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | StepUp.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4">
+</head>
+<body>
+
+    <!-- Header & Navbar -->
+    <header class="main-header">
+        <nav class="navbar">
+            <a href="{% url 'home' %}" class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="StepUp Logo">
+            </a>
+
+            <form class="search-form" action="{% url 'home' %}" method="get">
+                <input type="search" name="q" placeholder="Search here..." aria-label="Search products">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}" class="nav-active">About Us</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="#cart" class="cart-link">Cart <span>🛒</span></a>
+            </div>
+        </nav>
+
+        <!-- Brand Row with Back Button -->
+        <div class="brand-row-with-back">
+            <a href="{% url 'home' %}" class="back-link">
+                <span class="back-arrow">&#8592;</span> Back
+            </a>
+            <h1 class="brand-title">StepUp.in</h1>
+        </div>
+
+        <!-- Category Navigation Bar with Mega Menus -->
+        <div class="category-nav">
+            <a href="{% url 'womens' %}" class="{% if request.resolver_match.url_name == 'womens' %}category-active{% endif %}">Womens</a>
+            <a href="{% url 'mens' %}" class="{% if request.resolver_match.url_name == 'mens' %}category-active{% endif %}">Mens</a>
+            <a href="{% url 'kids' %}" class="{% if request.resolver_match.url_name == 'kids' %}category-active{% endif %}">Kids</a>
+
+            <!-- Brands dropdown -->
+            <div class="nav-dropdown-item brands-dropdown-trigger">
+                <a href="#brands" class="nav-trigger-link" aria-expanded="false" aria-controls="brands-menu">Brands</a>
+                
+                <div class="mega-brands-menu" id="brands-menu">
+                    <div class="mega-brands-grid">
+                        
+                        <!-- Column B & C -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">B</h5>
+                                <a href="#barbie">Barbie</a>
+                                <a href="#beckett">Beckett</a>
+                                <a href="#bluey">Bluey</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">C</h5>
+                                <a href="#comfort-plus">Comfort Plus</a>
+                                <a href="#comfy-steps">Comfy steps</a>
+                                <a href="#crocs">Crocs</a>
+                                <a href="#cushion-walk">Cushion Walk</a>
+                            </div>
+                        </div>
+
+                        <!-- Column D, E & G -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">D</h5>
+                                <a href="#disney-frozen">Disney frozen</a>
+                                <a href="#disney-stitch">Disney stitch</a>
+                                <a href="#divaz">Divaz</a>
+                                <a href="#dunlop">Dunlop</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">E</h5>
+                                <a href="#earthworks">EarthWorks</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">G</h5>
+                                <a href="#gabbys-dollhouse">Gabbys Dollhouse</a>
+                            </div>
+                        </div>
+
+                        <!-- Column H & J -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">H</h5>
+                                <a href="#heart">Heart</a>
+                                <a href="#heavenly-feet">Heavenly feet</a>
+                                <a href="#hobos">Hobos</a>
+                                <a href="#hush-puppies">Hush puppies</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">J</h5>
+                                <a href="#jo-joe">Jo& Joe</a>
+                                <a href="#juju">JuJu</a>
+                            </div>
+                        </div>
+
+                        <!-- Column K & L -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">K</h5>
+                                <a href="#kickers">Kickers</a>
+                                <a href="#krush">Krush</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">L</h5>
+                                <a href="#lambretta">Lambretta</a>
+                                <a href="#lilley">Lilley</a>
+                                <a href="#lol">LoL</a>
+                                <a href="#lotus">Lotus</a>
+                                <a href="#lunar">Lunar</a>
+                            </div>
+                        </div>
+
+                        <!-- Column M & O -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">M</h5>
+                                <a href="#marco">Marco</a>
+                                <a href="#lozzi">Lozzi</a>
+                                <a href="#marvel">Marvel</a>
+                                <a href="#maya">Maya</a>
+                                <a href="#grace">grace</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">O</h5>
+                                <a href="#original-penguin">Original penguin</a>
+                                <a href="#osaga">Osaga</a>
+                            </div>
+                        </div>
+
+                        <!-- Column P & R -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">P</h5>
+                                <a href="#paw-patrol">Paw patrol</a>
+                                <a href="#pokemon">Pokemon</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">R</h5>
+                                <a href="#red-fish">Red fish</a>
+                                <a href="#red-level">Red level</a>
+                                <a href="#regatta">Regatta</a>
+                                <a href="#rieker">Rieker</a>
+                                <a href="#rocket-dog">Rocket Dog</a>
+                            </div>
+                        </div>
+
+                        <!-- Column S -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">S</h5>
+                                <a href="#skechers">Skechers</a>
+                                <a href="#soft-line">Soft line</a>
+                                <a href="#softlites">Softlites</a>
+                                <a href="#spider-man">Spider-man</a>
+                                <a href="#stone-creek">Stone creek</a>
+                                <a href="#super-mario">Super mario</a>
+                            </div>
+                        </div>
+
+                        <!-- Column T & U -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">T</h5>
+                                <a href="#totes-isotoner">Totes isotoner</a>
+                                <a href="#trespass">Trespass</a>
+                                <a href="#truffle">Truffle</a>
+                                <a href="#trux">Trux</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">U</h5>
+                                <a href="#umbro">Umbro</a>
+                            </div>
+                        </div>
+
+                        <!-- Column W & X -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">W</h5>
+                                <a href="#walkright">Walkright</a>
+                                <a href="#wednesday">Wednesday</a>
+                                <a href="#wrangler">Wrangler</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">X</h5>
+                                <a href="#xl">XL</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offers dropdown -->
+            <div class="nav-dropdown-item offers-dropdown-trigger">
+                <a href="#offers" class="nav-trigger-link" aria-expanded="false" aria-controls="offers-menu-box">Offers</a>
+                
+                <div class="offers-menu-box" id="offers-menu-box">
+                    <span class="offers-subheading">SAVE</span>
+                    <ul class="offers-items-list">
+                        <li><a href="#two-pairs">Two pairs for thousand</a></li>
+                        <li><a href="#clearance">Clerance Outlet</a></li>
+                        <li><a href="#boots-sale">Boots Sale</a></li>
+                        <li><a href="#all-offers">View all offers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="about-page-main">
+        <!-- Top Section: Text & Right Arch Graphic -->
+        <section class="about-hero-section">
+            <div class="about-content-wrapper">
+                
+                <!-- Left Side Copy -->
+                <div class="about-text-column">
+                    <div class="about-block">
+                        <h2 class="about-heading">About StepUp</h2>
+                        <p class="about-paragraph">
+                            StepUp is India's largest sports and athleisure footwear brand. Incorporated in 2006, StepUp Activewear is one of the leading players in organized sports & casual footwear sector in India. Since 2016, the flagship brand "StepUp", has been the largest sports and athleisure footwear brand in India, in both volume and value terms. The company's products are available via an expansive Pan-India network of over 15,000 geo-tagged multi-brand retail stores, 35+ company-owned exclusive outlets, large format stores such as Walmart, Vishal Retail and Reliance Smart among others and all the leading e-commerce portals.
+                        </p>
+                    </div>
+
+                    <div class="about-block">
+                        <h2 class="about-heading">Our Mission</h2>
+                        <p class="about-paragraph">
+                            At StepUp we craft shoes with care for everyone- men, women and kids, with an equal attention to detail, letting each shoe speak for itself. The world-class quality, trendy designs and affordable prices have captured the imagination of millions of people, across the country- making StepUp, an aspirational brand especially for - young adults, everyday performers and fashionistas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Side Arch Visual -->
+                <div class="about-arch-column">
+                    <div class="curved-graphic-shape">
+                        <img src="{% static 'images/about_sneaker_art.png' %}" alt="StepUp Sneakers Showcase">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Middle Showcase: Centered Circular Metallic Shoes -->
+        <section class="center-shoe-section">
+            <div class="center-shoe-circle">
+                <img src="{% static 'images/kids_metallic_shoes.png' %}" alt="Metallic Kids Footwear">
+            </div>
+        </section>
+
+        <!-- Three Pillars Section -->
+        <section class="pillars-section">
+            <div class="pillars-grid">
+                
+                <!-- Pillar 1 -->
+                <div class="pillar-item">
+                    <h3 class="pillar-title">Simplicity In Design</h3>
+                    <p class="pillar-desc">
+                        No flashy logos,No senseless details, Just the world's most comfortable shoes,made naturally and designed practically,It's that simple.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="pillar-item">
+                    <h3 class="pillar-title">Confidance in Comfort</h3>
+                    <p class="pillar-desc">
+                        Trying is believing.Give our shoes a shot for 30 days.and if you're not walking on cloud nine,we'll take them back-no questions asked.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="pillar-item">
+                    <h3 class="pillar-title">Made from Nature</h3>
+                    <p class="pillar-desc">
+                        The footwear industry often overlooks mother Nature's materials in favor of cheaper,synthetic alternatives.We think it's time to change that.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    {% include 'partials/footer.html' %}
+    <script src="{% static 'js/navbar.js' %}?v=2"></script>
+</body>
+</html>

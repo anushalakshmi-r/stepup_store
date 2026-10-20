@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Log in & Register | StepUp.in{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ==========================================
+   Login & Register Card Styling
+   ========================================== */
+.auth-page-section {
+    min-height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px 80px;
+    background: #FFFFFF;
+}
+
+.auth-card-container {
+    width: 100%;
+    max-width: 440px;
+    background: #FFFFFF;
+    border: 1.5px solid #666666;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Tab Header Buttons */
+.auth-tabs-header {
+    display: flex;
+    width: 88%;
+    margin: 28px auto 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.auth-tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #D8D8D8;
+    color: #111111;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.auth-tab-btn.active {
+    background: #2F4F4F;
+    color: #FFFFFF;
+}
+
+/* Card Body & Forms */
+.auth-card-body {
+    padding: 10px 32px 35px;
+}
+
+.auth-form {
+    display: none;
+    flex-direction: column;
+}
+
+.auth-form.active-form {
+    display: flex;
+}
+
+/* Input Fields */
+.auth-field-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-field-group label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 6px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+.auth-field-group input[type="email"] {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #777777;
+    border-radius: 2px;
+    padding: 0 12px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    color: #222222;
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #777777;
+    border-radius: 2px;
+    padding: 0 38px 0 12px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    color: #222222;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eye-icon {
+    display: block;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.password-toggle-icon:hover .eye-icon {
+    opacity: 1;
+}
+
+/* Forgot Password */
+.forgot-password-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.forgot-password-link {
+    font-size: 10.5px;
+    color: #FF0000;
+    text-decoration: none;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    align-self: center;
+    background: #2F4F4F;
+    color: #FFFFFF;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s ease;
+}
+
+.auth-submit-btn:hover {
+    background: #233b3b;
+}
+
+/* Or Divider */
+.auth-divider-text {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #111111;
+    margin: 20px 0 16px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+/* Google Button */
+.google-signin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 82%;
+    margin: 0 auto;
+    height: 36px;
+    background: #FFFFFF;
+    border: 1px solid #666666;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: #111111;
+    transition: background 0.2s ease;
+}
+
+.google-signin-btn:hover {
+    background: #F8F9FA;
+}
+
+/* Switch Prompt */
+.auth-switch-prompt {
+    text-align: center;
+    font-size: 11.5px;
+    color: #222222;
+    margin-top: 24px;
+}
+
+.highlight-link {
+    color: #FF0000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.highlight-link:hover {
+    text-decoration: underline;
+}
+
+/* Terms Agreement (Register Form) */
+.terms-agreement-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 14px 0 24px;
+}
+
+.terms-agreement-row input[type="checkbox"] {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.terms-agreement-row label {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #222222;
+    cursor: pointer;
+}
+</style>
+{% endblock %}
+
+{% block subheader %}
+<div class="brand-row-with-back">
+    <a href="{% url 'home' %}" class="back-link">
+        <span class="back-arrow">&#8592;</span> Back
+    </a>
+    <h1 class="brand-title">StepUp.in</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="auth-page-section">
+    <div class="auth-card-container">
+        
+        <!-- Tabs -->
+        <div class="auth-tabs-header">
+            <button type="button" class="auth-tab-btn active" id="tab-login-btn" onclick="switchTab('login')">Log in</button>
+            <button type="button" class="auth-tab-btn" id="tab-register-btn" onclick="switchTab('register')">Register</button>
+        </div>
+
+        <div class="auth-card-body">
+            
+            <!-- 1. Log In Form -->
+            <form id="login-form-box" class="auth-form active-form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="login">
+
+                <div class="auth-field-group">
+                    <label for="login-email">Email id</label>
+                    <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="login-password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="login-password" name="password" placeholder="Enter password" required>
+                        <span class="password-toggle-icon" onclick="togglePasswordVisibility('login-password', this)">
+                            <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="forgot-password-row">
+                        <a href="#forgot" class="forgot-password-link">Forget Password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">Log In</button>
+
+                <div class="auth-divider-text">Or</div>
+
+                <!-- Google Button -->
+                <button type="button" class="google-signin-btn">
+                    <span>Continue with google</span>
+                    <svg class="google-logo" width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27a7.2 7.2 0 0 1 0-4.54V6.58H1.25a11.97 11.97 0 0 0 0 10.84l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                </button>
+
+                <p class="auth-switch-prompt">
+                    Don't have an account? <a href="javascript:void(0)" onclick="switchTab('register')" class="highlight-link">Register</a>
+                </p>
+            </form>
+
+            <!-- 2. Register Form -->
+            <form id="register-form-box" class="auth-form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="register">
+
+                <div class="auth-field-group">
+                    <label for="register-email">Email id</label>
+                    <input type="email" id="register-email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="auth-field-group">
+                    <label for="register-password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="register-password" name="password" placeholder="Enter password" required>
+                        <span class="password-toggle-icon" onclick="togglePasswordVisibility('register-password', this)">
+                            <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="terms-agreement-row">
+                    <input type="checkbox" id="terms-agree" name="terms" required>
+                    <label for="terms-agree">I have read and agreed to the Terms and Conditions and Privacy Policy</label>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">Register</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function switchTab(tabName) {
+        const loginTabBtn = document.getElementById('tab-login-btn');
+        const registerTabBtn = document.getElementById('tab-register-btn');
+        const loginForm = document.getElementById('login-form-box');
+        const registerForm = document.getElementById('register-form-box');
+
+        if (tabName === 'login') {
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+            loginForm.classList.add('active-form');
+            registerForm.classList.remove('active-form');
+        } else {
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+            registerForm.classList.add('active-form');
+            loginForm.classList.remove('active-form');
+        }
+    }
+
+    function togglePasswordVisibility(inputId, triggerEl) {
+        const inputField = document.getElementById(inputId);
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            triggerEl.innerHTML = `
+                <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>`;
+        } else {
+            inputField.type = "password";
+            triggerEl.innerHTML = `
+                <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>`;
+        }
+    }
+</script>
+{% endblock %}

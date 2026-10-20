@@ -1,0 +1,447 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StepUp.in | Premium Footwear</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4">
+</head>
+<body>
+
+    <!-- Main Navbar -->
+    <header class="main-header">
+        <nav class="navbar">
+
+            <a href="/" class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="StepUp Logo">
+</a>
+
+            <form class="search-form" action="/" method="get">
+                <input type="search" name="q" placeholder="Search for shoes..." aria-label="Search products">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="active">Home</a>
+                <a href="{% url 'about' %}" class="active">About Us</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="#cart" class="cart-link">Cart <span>🛒</span></a>
+            </div>
+
+        </nav>
+
+        <div class="brand-heading">
+            <h1>StepUp.in</h1>
+        </div>
+
+      <!-- Category Navigation Bar with Mega Menus -->
+        <div class="category-nav">
+            {% include 'partials/category_menus.html' %}
+
+            <!-- Brands dropdown -->
+            <div class="nav-dropdown-item brands-dropdown-trigger">
+                <a href="#brands" class="nav-trigger-link" aria-expanded="false" aria-controls="brands-menu">Brands</a>
+                
+                <div class="mega-brands-menu" id="brands-menu">
+                    <div class="mega-brands-grid">
+                        
+                        <!-- Column B & C -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">B</h5>
+                                <a href="#barbie">Barbie</a>
+                                <a href="#beckett">Beckett</a>
+                                <a href="#bluey">Bluey</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">C</h5>
+                                <a href="#comfort-plus">Comfort Plus</a>
+                                <a href="#comfy-steps">Comfy steps</a>
+                                <a href="#crocs">Crocs</a>
+                                <a href="#cushion-walk">Cushion Walk</a>
+                            </div>
+                        </div>
+
+                        <!-- Column D, E & G -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">D</h5>
+                                <a href="#disney-frozen">Disney frozen</a>
+                                <a href="#disney-stitch">Disney stitch</a>
+                                <a href="#divaz">Divaz</a>
+                                <a href="#dunlop">Dunlop</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">E</h5>
+                                <a href="#earthworks">EarthWorks</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">G</h5>
+                                <a href="#gabbys-dollhouse">Gabbys Dollhouse</a>
+                            </div>
+                        </div>
+
+                        <!-- Column H & J -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">H</h5>
+                                <a href="#heart">Heart</a>
+                                <a href="#heavenly-feet">Heavenly feet</a>
+                                <a href="#hobos">Hobos</a>
+                                <a href="#hush-puppies">Hush puppies</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">J</h5>
+                                <a href="#jo-joe">Jo& Joe</a>
+                                <a href="#juju">JuJu</a>
+                            </div>
+                        </div>
+
+                        <!-- Column K & L -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">K</h5>
+                                <a href="#kickers">Kickers</a>
+                                <a href="#krush">Krush</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">L</h5>
+                                <a href="#lambretta">Lambretta</a>
+                                <a href="#lilley">Lilley</a>
+                                <a href="#lol">LoL</a>
+                                <a href="#lotus">Lotus</a>
+                                <a href="#lunar">Lunar</a>
+                            </div>
+                        </div>
+
+                        <!-- Column M & O -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">M</h5>
+                                <a href="#marco">Marco</a>
+                                <a href="#lozzi">Lozzi</a>
+                                <a href="#marvel">Marvel</a>
+                                <a href="#maya">Maya</a>
+                                <a href="#grace">grace</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">O</h5>
+                                <a href="#original-penguin">Original penguin</a>
+                                <a href="#osaga">Osaga</a>
+                            </div>
+                        </div>
+
+                        <!-- Column P & R -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">P</h5>
+                                <a href="#paw-patrol">Paw patrol</a>
+                                <a href="#pokemon">Pokemon</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">R</h5>
+                                <a href="#red-fish">Red fish</a>
+                                <a href="#red-level">Red level</a>
+                                <a href="#regatta">Regatta</a>
+                                <a href="#rieker">Rieker</a>
+                                <a href="#rocket-dog">Rocket Dog</a>
+                            </div>
+                        </div>
+
+                        <!-- Column S -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">S</h5>
+                                <a href="#skechers">Skechers</a>
+                                <a href="#soft-line">Soft line</a>
+                                <a href="#softlites">Softlites</a>
+                                <a href="#spider-man">Spider-man</a>
+                                <a href="#stone-creek">Stone creek</a>
+                                <a href="#super-mario">Super mario</a>
+                            </div>
+                        </div>
+
+                        <!-- Column T & U -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">T</h5>
+                                <a href="#totes-isotoner">Totes isotoner</a>
+                                <a href="#trespass">Trespass</a>
+                                <a href="#truffle">Truffle</a>
+                                <a href="#trux">Trux</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">U</h5>
+                                <a href="#umbro">Umbro</a>
+                            </div>
+                        </div>
+
+                        <!-- Column W & X -->
+                        <div class="brand-alpha-col">
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">W</h5>
+                                <a href="#walkright">Walkright</a>
+                                <a href="#wednesday">Wednesday</a>
+                                <a href="#wrangler">Wrangler</a>
+                            </div>
+                            <div class="brand-group">
+                                <h5 class="alpha-letter">X</h5>
+                                <a href="#xl">XL</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offers dropdown -->
+            <div class="nav-dropdown-item offers-dropdown-trigger">
+                <a href="#offers" class="nav-trigger-link" aria-expanded="false" aria-controls="offers-menu-box">Offers</a>
+                
+                <div class="offers-menu-box" id="offers-menu-box">
+                    <span class="offers-subheading">SAVE</span>
+                    <ul class="offers-items-list">
+                        <li><a href="#two-pairs">Two pairs for thousand</a></li>
+                        <li><a href="#clearance">Clerance Outlet</a></li>
+                        <li><a href="#boots-sale">Boots Sale</a></li>
+                        <li><a href="#all-offers">View all offers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+  
+<main>
+    <section class="hero-section">
+        <div class="hero-slides">
+
+            <div class="hero-slide active" style="background-image: url('{% static "images/redheel.jpg" %}');">
+    <div class="hero-content">
+        <div class="hero-offer">
+            Womens red color<br>
+            high heel for party<br>
+            for your first order get a free gift
+        </div>
+        <a href="#womens" class="shop-now-btn">Shop Now</a>
+    </div>
+</div>
+
+<div class="hero-slide" style="background-image: url('{% static "images/blueheel.jpg" %}');">
+    <div class="hero-content">
+        <div class="hero-offer">
+            Stylish blue heels<br>
+            for every special moment<br>
+            Find your perfect pair
+        </div>
+        <a href="#womens" class="shop-now-btn">Shop Now</a>
+    </div>
+</div>
+
+<div class="hero-slide" style="background-image: url('{% static "images/kid1.jpg" %}');">
+    <div class="hero-content">
+        <div class="hero-offer">
+            Little Steps, Big Style<br>
+            Explore kids' footwear<br>
+            Comfort for every adventure
+        </div>
+        <a href="#kids" class="shop-now-btn">Shop Now</a>
+    </div>
+</div>
+
+<div class="hero-slide" style="background-image: url('{% static "images/menc.jpg" %}');">
+    <div class="hero-content">
+        <div class="hero-offer">
+            Men's Latest Collection<br>
+            Style meets comfort<br>
+            Find your perfect pair
+        </div>
+        <a href="#mens" class="shop-now-btn">Shop Now</a>
+    </div>
+</div>
+
+        
+
+</div>
+
+        <button class="hero-arrow hero-prev" aria-label="Previous slide">&#10094;</button>
+        <button class="hero-arrow hero-next" aria-label="Next slide">&#10095;</button>
+
+        <div class="hero-dots">
+            <button class="hero-dot active" aria-label="Slide 1"></button>
+            <button class="hero-dot" aria-label="Slide 2"></button>
+            <button class="hero-dot" aria-label="Slide 3"></button>
+            <button class="hero-dot" aria-label="Slide 4"></button>
+        </div>
+    </section>
+
+<!-- Overview Section -->
+    <section class="overview-section" id="overview">
+        <div class="container">
+            <h2 class="section-title">Overview</h2>
+            <p class="overview-text">
+                "Explore our curated selection of high-quality shoes for every occasion. From durable athletic shoes designed for peak performance to stylish casual sneakers and elegant dress shoes, we offer a diverse range of footwear to suit your needs. Our user-friendly interface makes it easy to browse our collection and find the perfect pair, while detailed product descriptions and high-quality images ensure you make an informed decision. Join our community of style and discover your next favorite shoe!"
+            </p>
+        </div>
+    </section>
+
+    <!-- "What are you looking for?" Section in home.html -->
+<section class="categories-preview-section">
+    <div class="container">
+        <h2 class="section-title">What are you looking for?</h2>
+        
+        <div class="category-cards-grid">
+            <!-- Mens Card -> Links to Mens Page -->
+            <a href="{% url 'mens' %}" class="category-card">
+                <div class="card-img-wrapper">
+                    <img src="{% static 'images/mens_look.jpg' %}" alt="Men's Collection">
+                </div>
+                <h3 class="category-card-title">Mens</h3>
+            </a>
+
+            <!-- Womens Card -> Links to Womens Page -->
+            <a href="{% url 'womens' %}" class="category-card">
+                <div class="card-img-wrapper">
+                    <img src="{% static 'images/womens_look.jpg' %}" alt="Women's Collection">
+                </div>
+                <h3 class="category-card-title">Womens</h3>
+            </a>
+
+            <!-- Kids Card -> Links to Kids Page -->
+            <a href="{% url 'kids' %}" class="category-card">
+                <div class="card-img-wrapper">
+                    <img src="{% static 'images/kids_look.jpg' %}" alt="Kids' Collection">
+                </div>
+                <h3 class="category-card-title">Kids</h3>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!-- New & Trending Section -->
+    <section class="trending-section" id="trending">
+        <div class="container">
+            <h2 class="section-title">New & Trending</h2>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod1.png' %}" alt="Ophelia Womens Silver Diamante Heel">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Ophelia Womens Silver<br>Diamante<br>Heel</h4>
+                        <p class="product-price">MRP : ₹ 2,299</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod2.png' %}" alt="Billie Womens Silver Diamante Heel">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Billie Womens Silver<br>Diamante Heel</h4>
+                        <p class="product-price">MRP : ₹ 3,000</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod3.png' %}" alt="Drew Womens Blush Diamante Slip On Shoe">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Drew Womens Blush<br>Diamante<br>Slip On Shoe</h4>
+                        <p class="product-price">MRP : ₹ 2,599</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod4.png' %}" alt="Drew Womens Navy Diamante Slip On Shoe">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Drew Womens Navy<br>Diamante<br>Slip On Shoe</h4>
+                        <p class="product-price">MRP : ₹ 1,299</p>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod5.png' %}" alt="Weaver Mens Navy Lace Up Trainer">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Weaver Mens Navy<br>Lace Up Trainer</h4>
+                        <p class="product-price">MRP : ₹ 2,799</p>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod6.png' %}" alt="Weaver Mens White Lace Up Trainer">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Weaver Mens White Lace<br>Up Trainer</h4>
+                        <p class="product-price">MRP : ₹ 2,259</p>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod7.png' %}" alt="Calista Girls Pink Daisy Print Sandal">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Calista Girls Pink Daisy<br>Print Sandal</h4>
+                        <p class="product-price">MRP : ₹ 2,899</p>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <div class="product-img-box">
+                        <img src="{% static 'images/prod8.png' %}" alt="Colby Boys Blue Dinosaur Canvas">
+                    </div>
+                    <div class="product-info">
+                        <h4 class="product-name">Colby Boys Blue Dinosaur<br>Canvas</h4>
+                        <p class="product-price">MRP : ₹ 3,299</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View All Action -->
+            <div class="view-all-wrapper">
+                <a href="#all-products" class="view-all-btn">View all</a>
+            </div>
+
+            <!-- Offer Strip / Promo Banner -->
+            <div class="offer-promo-box">
+                <span class="offer-icon">🎁</span>
+                <span class="offer-text">Get your first order with free gift</span>
+                <span class="offer-icon">🎁</span>
+                <span class="offer-subtext">& 50 % offer</span>
+                <span class="offer-coin">🪙</span>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    {% include 'partials/footer.html' %}
+    <script src="{% static 'js/navbar.js' %}?v=3"></script>
+<script src="{% static 'js/hero.js' %}"></script>  
+
+</body>
+</html>
