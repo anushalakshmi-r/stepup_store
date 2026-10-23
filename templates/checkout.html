@@ -172,20 +172,19 @@
     background: #FFFFFF;
 }
 
-/* Payment logos strip */
+/* Payment information */
 .payment-logos-row {
     display: flex;
     align-items: center;
-    gap: 10px;
     margin-bottom: 12px;
+    font-size: 12px;
 }
 
-.pay-badge {
-    padding: 3px 6px;
-    border: 1px solid #CCCCCC;
-    border-radius: 2px;
-    font-size: 10px;
-    font-weight: 700;
+.payment-message {
+    min-height: 18px;
+    margin: 10px 0;
+    color: #8b1e1e;
+    font-size: 12px;
 }
 
 .cod-selection-row {
@@ -281,6 +280,7 @@
             <h3 class="form-main-heading">Complete Your Order</h3>
 
             <form id="checkout-form" onsubmit="handleOrderSubmission(event)">
+                {% csrf_token %}
                 <!-- Personal Details -->
                 <div class="form-section-title">Personal Details</div>
                 <div class="form-row-2col">
@@ -308,39 +308,22 @@
                 <!-- Payment Details -->
                 <div class="form-section-title">Payment Details</div>
                 <div class="payment-logos-row">
-                    <span class="pay-badge" style="color:#1A1F71; font-weight:900;">VISA</span>
-                    <span class="pay-badge" style="color:#4285F4;">G Pay</span>
-                    <span class="pay-badge" style="color:#0079C1;">PayPal</span>
-                    <span class="pay-badge" style="font-family:sans-serif;">clearpay</span>
-                    <span class="pay-badge" style="font-weight:900;">Klarna.</span>
-                </div>
-
-                <div class="form-row-2col">
-                    <div class="form-field-group">
-                        <label>Card Holder Name</label>
-                        <input type="text" placeholder="Enter card name">
-                    </div>
-                    <div class="form-field-group">
-                        <label>Card Number</label>
-                        <input type="text" placeholder="Enter card number">
-                    </div>
-                </div>
-
-                <div class="form-row-2col">
-                    <div class="form-field-group">
-                        <label>CVV</label>
-                        <input type="password" placeholder="Example: 4119" maxlength="4">
-                    </div>
-                    <div class="form-field-group">
-                        <label>Expiration Date</label>
-                        <input type="text" placeholder="MM/YY">
-                    </div>
+                    <span>Secure credit and debit card payments via Razorpay.</span>
                 </div>
 
                 <div class="cod-selection-row">
                     <input type="radio" id="cod-radio" name="payment_method" value="COD" checked>
                     <label for="cod-radio">Cash on Delivery</label>
+                    <input type="radio" id="razorpay-radio" name="payment_method" value="RAZORPAY"
+                           {% if not razorpay_enabled %}disabled{% endif %}>
+                    <label for="razorpay-radio">Pay by card</label>
                 </div>
+                {% if not razorpay_enabled %}
+                    <p class="payment-message">Card payments are not configured. Please choose Cash on Delivery.</p>
+                {% elif razorpay_test_mode %}
+                    <p class="payment-message">Razorpay test mode is active. Real cards will be declined; use Razorpay test card details.</p>
+                {% endif %}
+                <p id="payment-message" class="payment-message" role="alert" aria-live="polite"></p>
 
                 <!-- Shipping Address -->
                 <div class="form-section-title">Shipping Address</div>
@@ -373,32 +356,191 @@
 
                 <div class="form-action-buttons">
                     <a href="{% url 'cart' %}" class="btn-cancel">Cancel</a>
-                    <button type="submit" class="btn-order-now">Order Now</button>
+                    <button type="submit" class="btn-order-now" id="order-submit-button">Place Order</button>
                 </div>
             </form>
         </section>
     </div>
 </main>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    const RAZORPAY_KEY = "{{ razorpay_key_id }}";
+    function readCheckoutItems() {
+        try {
+            const items = JSON.parse(localStorage.getItem('stepup_cart_items') || '[]');
+            return Array.isArray(items) ? items : [];
+        } catch (error) {
+            console.error('Unable to read cart items.', error);
+            return [];
+        }
+    }
+
+    const CHECKOUT_ITEMS = readCheckoutItems();
+    const DEFAULT_CHECKOUT_ITEM = {
+        brand: "Comfy Steps",
+        title: "Harlan Mens Tan Boat Shoe",
+        price: 2799,
+        size: 41,
+        quantity: 1,
+        image: "{% static 'images/mens/prod1.png' %}"
+    };
+
+    function getCheckoutItems() {
+        return CHECKOUT_ITEMS.length ? CHECKOUT_ITEMS : [DEFAULT_CHECKOUT_ITEM];
+    }
+
+    function showPaymentMessage(message) {
+        document.getElementById('payment-message').textContent = message;
+    }
+
+    function csrfToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    function clearCart() {
+        try {
+            localStorage.removeItem('stepup_cart_items');
+        } catch (error) {
+            console.error('Unable to clear the cart after order confirmation.', error);
+        }
+    }
+
+    function updateSubmitButtonLabel() {
+        const isCardPayment = document.getElementById('razorpay-radio').checked;
+        document.getElementById('order-submit-button').textContent =
+            isCardPayment ? 'Pay by card' : 'Place Order (Cash on Delivery)';
+    }
+
+    async function postOrderData(url, payload) {
+        const response = await fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken()
+            },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok || result.status !== 'success') {
+            throw new Error(result.message || 'The order could not be completed.');
+        }
+        return result;
+    }
+
+    async function handleOrderSubmission(event) {
+        event.preventDefault();
+        const submitButton = document.getElementById('order-submit-button');
+        const paymentMessage = document.getElementById('payment-message');
+        const isCOD = document.getElementById('cod-radio').checked;
+        const items = getCheckoutItems();
+        const totalAmount = items.reduce((total, item) => {
+            return total + (Number.parseInt(item.price, 10) || 2799) *
+                (Number.parseInt(item.quantity, 10) || 1);
+        }, 0);
+
+        const orderDetails = {
+            name: document.getElementById('cust-first-name').value + ' ' +
+                document.getElementById('cust-last-name').value,
+            email: document.getElementById('cust-email').value,
+            phone: document.getElementById('cust-phone').value,
+            address: document.getElementById('cust-address').value,
+            city: document.getElementById('cust-city').value
+        };
+
+        submitButton.disabled = true;
+        paymentMessage.textContent = '';
+
+        try {
+            if (isCOD) {
+                const result = await postOrderData("{% url 'complete_cod_order' %}", {
+                    amount: totalAmount,
+                    customer: orderDetails,
+                    items: items
+                });
+                clearCart();
+                window.location.replace(result.redirect_url);
+                return;
+            }
+
+            if (!RAZORPAY_KEY || typeof Razorpay === 'undefined') {
+                throw new Error('Card checkout is unavailable. Please choose Cash on Delivery or try again later.');
+            }
+
+            const orderData = await postOrderData("{% url 'create_razorpay_order' %}", {
+                amount: totalAmount,
+                customer: orderDetails,
+                items: items
+            });
+            let verificationPending = false;
+            const checkout = new Razorpay({
+                "key": RAZORPAY_KEY,
+                "amount": orderData.amount,
+                "currency": "INR",
+                "name": "StepUp.in",
+                "description": "Footwear Purchase",
+                "image": "{% static 'images/logo.png' %}",
+                "order_id": orderData.order_id,
+                "config": {
+                    "display": {
+                        "blocks": {
+                            "cards": {
+                                "name": "Pay by card",
+                                "instruments": [{ "method": "card" }]
+                            }
+                        },
+                        "sequence": ["block.cards"],
+                        "preferences": { "show_default_blocks": false }
+                    }
+                },
+                "handler": async function (paymentResponse) {
+                    verificationPending = true;
+                    showPaymentMessage('Payment received. Confirming your order...');
+                    try {
+                        const result = await postOrderData("{% url 'verify_payment' %}", paymentResponse);
+                        clearCart();
+                        window.location.replace(result.redirect_url);
+                    } catch (error) {
+                        submitButton.disabled = false;
+                        showPaymentMessage(error.message);
+                    }
+                },
+                "prefill": {
+                    "name": orderDetails.name,
+                    "email": orderDetails.email,
+                    "contact": orderDetails.phone
+                },
+                "theme": { "color": "#2F4F4F" },
+                "modal": {
+                    "ondismiss": function () {
+                        if (!verificationPending) {
+                            submitButton.disabled = false;
+                            showPaymentMessage('Payment was not completed. You can retry with a new payment attempt.');
+                        }
+                    }
+                }
+            });
+            checkout.on('payment.failed', function (response) {
+                submitButton.disabled = false;
+                const reason = response.error && response.error.description;
+                showPaymentMessage(reason
+                    ? 'Card payment failed: ' + reason
+                    : 'Card payment failed. Please check the card details or try another card.');
+            });
+            checkout.open();
+        } catch (error) {
+            submitButton.disabled = false;
+            showPaymentMessage(error.message || 'Unable to process the order. Please try again.');
+        }
+    }
+
     function renderCheckoutSummary() {
-        const cart = JSON.parse(localStorage.getItem('stepup_cart_items') || '[]');
+        const cart = getCheckoutItems();
         const listContainer = document.getElementById('checkout-items-list');
         listContainer.innerHTML = '';
 
         let total = 0;
-
-        if (cart.length === 0) {
-            // Default demo item matching Figma if cart was empty
-            cart.push({
-                brand: "Comfy Steps",
-                title: "Harlan Mens Tan Boat Shoe",
-                price: 2799,
-                size: 41,
-                quantity: 1,
-                image: "{% static 'images/mens/prod1.png' %}"
-            });
-        }
 
         cart.forEach(item => {
             const qty = item.quantity || 1;
@@ -426,34 +568,10 @@
         document.getElementById('summary-total').innerText = '₹ ' + total.toLocaleString('en-IN');
     }
 
-    function handleOrderSubmission(event) {
-        event.preventDefault();
-        
-        // Save latest order info for tracking page
-        const cart = JSON.parse(localStorage.getItem('stepup_cart_items') || '[]');
-        const primaryItem = cart[0] || {
-            brand: "Comfy Steps",
-            title: "Harlan Mens Tan Boat Shoe",
-            price: 2799,
-            image: "{% static 'images/mens/prod1.png' %}"
-        };
-
-        const totalText = document.getElementById('summary-total').innerText;
-        const orderData = {
-            orderNo: "#Bh2300006",
-            total: totalText,
-            item: primaryItem,
-            customerName: document.getElementById('cust-first-name').value,
-            city: document.getElementById('cust-city').value
-        };
-
-        localStorage.setItem('stepup_last_order', JSON.stringify(orderData));
-        localStorage.removeItem('stepup_cart_items'); // clear cart after order
-
-        // Navigate to Order Success page
-        window.location.href = "{% url 'order_success' %}";
-    }
-
+    document.querySelectorAll('input[name="payment_method"]').forEach(input => {
+        input.addEventListener('change', updateSubmitButtonLabel);
+    });
+    updateSubmitButtonLabel();
     document.addEventListener('DOMContentLoaded', renderCheckoutSummary);
 </script>
 {% endblock %}

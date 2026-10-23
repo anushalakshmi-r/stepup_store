@@ -33,7 +33,7 @@
                 <a href="{% url 'about' %}" class="active">About Us</a>
                 <a href="{% url 'contact' %}">Contact Us</a>
                 <a href="{% url 'login' %}">Log in</a>
-                <a href="#cart" class="cart-link">Cart <span>🛒</span></a>
+                <a href="{% url 'cart' %}" class="cart-link">Cart <span>🛒</span></a>
             </div>
 
         </nav>
@@ -232,7 +232,7 @@
             high heel for party<br>
             for your first order get a free gift
         </div>
-        <a href="#womens" class="shop-now-btn">Shop Now</a>
+        <a href="{% url 'womens' %}#products-grid" class="shop-now-btn">Shop Now</a>
     </div>
 </div>
 
@@ -243,7 +243,7 @@
             for every special moment<br>
             Find your perfect pair
         </div>
-        <a href="#womens" class="shop-now-btn">Shop Now</a>
+        <a href="{% url 'womens' %}#products-grid" class="shop-now-btn">Shop Now</a>
     </div>
 </div>
 
@@ -254,7 +254,7 @@
             Explore kids' footwear<br>
             Comfort for every adventure
         </div>
-        <a href="#kids" class="shop-now-btn">Shop Now</a>
+        <a href="{% url 'kids' %}#products-grid" class="shop-now-btn">Shop Now</a>
     </div>
 </div>
 
@@ -265,7 +265,7 @@
             Style meets comfort<br>
             Find your perfect pair
         </div>
-        <a href="#mens" class="shop-now-btn">Shop Now</a>
+        <a href="{% url 'mens' %}#products-grid" class="shop-now-btn">Shop Now</a>
     </div>
 </div>
 
@@ -295,7 +295,7 @@
     </section>
 
     <!-- "What are you looking for?" Section in home.html -->
-<section class="categories-preview-section">
+<section class="categories-preview-section" id="categories-preview">
     <div class="container">
         <h2 class="section-title">What are you looking for?</h2>
         
@@ -424,7 +424,7 @@
 
             <!-- View All Action -->
             <div class="view-all-wrapper">
-                <a href="#all-products" class="view-all-btn">View all</a>
+                <a href="#categories-preview" class="view-all-btn">View all</a>
             </div>
 
             <!-- Offer Strip / Promo Banner -->

@@ -12,9 +12,20 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
-
 from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv  # 1. Import load_dotenv
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 2. Load the .env file from BASE_DIR
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# ... unga existing settings (SECRET_KEY, INSTALLED_APPS, etc.) ...
+
+# 3. Read Razorpay Keys from environment
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

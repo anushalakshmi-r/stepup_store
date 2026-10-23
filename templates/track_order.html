@@ -190,28 +190,35 @@
 
 {% block content %}
 <main class="track-page-main">
+    {% if order %}
     <div class="track-order-card">
         
         <!-- Header -->
         <div class="track-card-header">
             <div class="track-heading-left">
                 <a href="{% url 'home' %}">&#10094; Your Order</a>
-                <span class="track-order-num">Order no #Bh2300006</span>
+                <span class="track-order-num" id="track-order-no">Order no {{ order.orderNo }}</span>
             </div>
-            <span class="track-payment-tag" id="track-pay-amount">Cash on Delivery ₹ 2,799</span>
+            <span class="track-payment-tag" id="track-pay-amount">{{ order.paymentMode }} · ₹ {{ order.amount }}</span>
         </div>
+        {% if order.transactionId %}
+            <p id="track-transaction-id">Transaction ID: {{ order.transactionId }}</p>
+        {% endif %}
 
         <!-- Product Preview -->
+        {% for item in order.items %}
         <div class="order-item-snippet">
             <div class="order-item-thumb">
-                <img id="track-prod-img" src="{% static 'images/mens/prod1.png' %}" alt="Footwear Item">
+                <img src="{{ item.image|default:'/static/images/mens/prod1.png' }}" alt="Footwear Item">
             </div>
             <div class="order-item-meta">
-                <h4 id="track-prod-brand">Comfy Steps</h4>
-                <p id="track-prod-title">Harlan Mens Tan Boat Shoe</p>
-                <span class="delivery-exp">Exp : Delivery by sun, May 31</span>
+                <h4>{{ item.brand|default:'Your order' }}</h4>
+                <p>{{ item.title|default:'Order item' }}</p>
+                <span>Quantity: {{ item.quantity|default:1 }}</span>
             </div>
         </div>
+        {% endfor %}
+        <p class="delivery-exp">Ship to {{ order.city }}. Address: {{ order.address }}</p>
 
         <!-- Timeline Progress -->
         <div class="timeline-stepper">
@@ -221,7 +228,7 @@
                 <div class="step-icon-bubble">🛒</div>
                 <div class="step-content-box">
                     <h5>Order Placed</h5>
-                    <p>May 21,2025 | 03:45 pm</p>
+                    <p>{{ order.orderedAt }}</p>
                 </div>
             </div>
 
@@ -229,8 +236,8 @@
             <div class="timeline-step">
                 <div class="step-icon-bubble">🏠</div>
                 <div class="step-content-box">
-                    <h5>OrderDispatched</h5>
-                    <p>May 22,2025 | 11:45 am</p>
+                    <h5>Preparing your order</h5>
+                    <p>Dispatch update pending</p>
                 </div>
             </div>
 
@@ -239,7 +246,7 @@
                 <div class="step-icon-bubble">🚚</div>
                 <div class="step-content-box">
                     <h5>Order in transit</h5>
-                    <p id="transit-location">Reached at Tenkasi,Post office</p>
+                    <p id="transit-location">Shipment tracking will be available after dispatch.</p>
                 </div>
             </div>
 
@@ -254,20 +261,12 @@
 
         </div>
     </div>
+    {% else %}
+        <div class="track-order-card">
+            <h2>No order to track yet</h2>
+            <p>After checkout is confirmed, your order number and tracking updates will appear here.</p>
+            <a href="{% url 'checkout' %}" class="btn-track-order">Return to Checkout</a>
+        </div>
+    {% endif %}
 </main>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const orderData = JSON.parse(localStorage.getItem('stepup_last_order') || '{}');
-        if (orderData.item) {
-            document.getElementById('track-prod-img').src = orderData.item.image;
-            document.getElementById('track-prod-brand').innerText = orderData.item.brand;
-            document.getElementById('track-prod-title').innerText = orderData.item.title;
-            document.getElementById('track-pay-amount').innerText = 'Cash on Delivery ' + (orderData.total || '₹ 2,799');
-            if (orderData.city) {
-                document.getElementById('transit-location').innerText = `Reached at ${orderData.city},Post office`;
-            }
-        }
-    });
-</script>
 {% endblock %}

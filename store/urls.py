@@ -15,4 +15,7 @@ urlpatterns = [
     path('order-success/', views.order_success_view, name='order_success'),
     path('track-order/', views.track_order_view, name='track_order'),
     path('subscribe/', views.subscribe_newsletter, name='subscribe_newsletter'),
+    path('complete-cod-order/', views.complete_cod_order, name='complete_cod_order'),
+    path('create-razorpay-order/', views.create_razorpay_order, name='create_razorpay_order'),
+    path('verify-payment/', views.verify_payment, name='verify_payment'),
 ]

@@ -139,17 +139,30 @@
             <div class="check-circle">&#10003;</div>
         </div>
 
-        <h3 class="success-title">Thankyou for your ordering</h3>
-        <p class="success-desc">
-            We've received your order will ship in 5-7 business days.<br>
-            Your order number is <strong id="display-order-no">#Bh2300006</strong>
-        </p>
+        {% if order %}
+            <h3 class="success-title">Order confirmed!</h3>
+            <p class="success-desc">
+                Your order is placed and its tracking details are ready.<br>
+                Order number: <strong id="display-order-no">{{ order.orderNo }}</strong><br>
+                Payment: <strong>{{ order.paymentMode }}</strong><br>
+                Total: <strong>₹ {{ order.amount }}</strong><br>
+                {% if order.transactionId %}
+                    Transaction ID: <strong>{{ order.transactionId }}</strong><br>
+                {% endif %}
+                Order date: {{ order.orderedAt }}
+            </p>
 
-        <div class="success-actions">
-            <a href="{% url 'home' %}" class="btn-view-order">View Order</a>
-            <!-- Click Track Order to navigate to Track Order page -->
-            <a href="{% url 'track_order' %}" class="btn-track-order">Track Order</a>
-        </div>
+            <div class="success-actions">
+                <a href="{% url 'home' %}" class="btn-view-order">Continue Shopping</a>
+                <a href="{% url 'track_order' %}" class="btn-track-order">Track Order</a>
+            </div>
+        {% else %}
+            <h3 class="success-title">No confirmed order found</h3>
+            <p class="success-desc">Complete checkout to receive your order confirmation and tracking number.</p>
+            <div class="success-actions">
+                <a href="{% url 'checkout' %}" class="btn-track-order">Return to Checkout</a>
+            </div>
+        {% endif %}
     </div>
 </main>
 {% endblock %}
